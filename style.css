@@ -4249,7 +4249,8 @@ body{
   position: absolute;
   top: 18px;
   left: -32px;
-  background: #8B5C2A;
+  /* background: #8B5C2A; */
+  background: orange;
   color: #fff;
   font-weight: bold;
   font-size: 15px;
@@ -4319,4 +4320,66 @@ a:hover {
 
 .footer {
   background: #fff8f0 !important;
+}
+
+/* Floating WhatsApp Button */
+.floating-whatsapp {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 9999;
+  animation: pulse 2s infinite;
+}
+
+.floating-whatsapp a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  background-color: #25d366;
+  color: white;
+  border-radius: 50%;
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
+  transition: all 0.3s ease;
+}
+
+.floating-whatsapp a:hover {
+  background-color: #128c7e;
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(37, 211, 102, 0.6);
+}
+
+.floating-whatsapp i {
+  font-size: 28px;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Responsive adjustments for mobile */
+@media (max-width: 768px) {
+  .floating-whatsapp {
+    bottom: 15px;
+    left: 15px;
+  }
+  
+  .floating-whatsapp a {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .floating-whatsapp i {
+    font-size: 24px;
+  }
 }
