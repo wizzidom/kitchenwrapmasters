@@ -133,7 +133,7 @@ body{
 	bottom: 15px;
 	right: 15px;
 	padding: 10px 20px;
-	background: #1a76d1;
+	background: #8b5c2a;
 	color: #fff;
 	font-size: 25px;
 	width: 45px;
@@ -620,7 +620,7 @@ body{
 	line-height: 42px;
 }
 .slider .single-slider h1 span{
-	color:#1a76d1;
+	color:#8b5c2a;
 }
 .slider .single-slider p {
 	color: #2C2D3F;
@@ -632,7 +632,7 @@ body{
 }
 .slider .single-slider .btn{
 	color:#fff;
-	background:#1a76d1;
+	background : #8b5c2a;
 	font-weight:500;
 	display:inline-block;
 	margin:0;
@@ -646,7 +646,7 @@ body{
 	color:#fff;
 }
 .slider .single-slider .btn.primary:before{
-	background:#1A76D1;
+	background:#8b5c2a;
 }
 .slider .owl-carousel .owl-nav {
 	margin: 0;
@@ -660,7 +660,7 @@ body{
 	width: 50px;
 	line-height: 50px;
 	text-align: center;
-	background: #1A76D1;
+	background: #8b5c2a;
 	color: #fff;
 	font-size: 26px;
 	position: absolute;
