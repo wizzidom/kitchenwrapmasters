@@ -71,34 +71,7 @@
     <!-- Header Area -->
     <header class="header">
       <!-- Topbar -->
-      <div class="topbar">
-        <div class="container">
-          <div class="row">
-            <div class="col-lg-6 col-md-5 col-12">
-              <!-- Contact -->
-              <ul class="top-link">
-                <li><a href="#about">About</a></li>
-                <li><a href="#serives">Services</a></li>
-                <li><a href="contact.html">Contact</a></li>
-              </ul>
-              <!-- End Contact -->
-            </div>
-            <div class="col-lg-6 col-md-7 col-12">
-              <!-- Top Contact -->
-              <ul class="top-contact">
-                <li>
-                  <i class="fa fa-phone"></i>+27 63 926 0604 / + 27 71 958 5783
-                </li>
-                <li>
-                  <i class="fa fa-envelope"></i
-                  ><a href="mailto:support@yourmail.com">admin@takexny.com</a>
-                </li>
-              </ul>
-              <!-- End Top Contact -->
-            </div>
-          </div>
-        </div>
-      </div>
+
       <!-- End Topbar -->
       <!-- Header Inner -->
       <div class="header-inner">
@@ -119,15 +92,15 @@
               </div>
               <div class="col-lg-7 col-md-9 col-12">
                 <!-- Main Menu -->
-                <div class="main-menu">
-                  <nav class="navigation">
-                    <ul class="nav menu">
-                      <li class="active"><a href="index.html">Home </a></li>
-                      <li><a href="#about">About </a></li>
-                      <li><a href="#services">Services </a></li>
-                      <li><a href="#gallery">Gallery</a></li>
+                <div class="main-menu" style="color: black;">
+                  <nav class="navigation" style="color: black;">
+                    <ul class="nav menu" style="color: black;">
+                      <li class="active"><a href="index.html" style="color: black;">Home </a></li>
+                      <!-- <li><a href="#about" style="color: black;">About </a></li> -->
+                      <li><a href="#services-cards" style="color: black;">Services </a></li>
+                      <li><a href="#gallery" style="color: black;">Gallery</a></li>
 
-                      <li><a href="contact.html">Contact Us</a></li>
+                      <li style="color: black;"><a href="contact.html" style="color: black;">Contact Us</a></li>
                     </ul>
                   </nav>
                 </div>
@@ -135,8 +108,11 @@
               </div>
               <div class="col-lg-2 col-12">
                 <div class="get-quote">
+                  <br>
+                  <br>
+              <br>
                   <a href="https://wa.me/27639260604" class="btn"
-                    >Request a Quote</a
+                    >Get Free Quote</a
                   >
                 </div>
               </div>
@@ -168,8 +144,8 @@
                   "
                 >
                   <h1>
-                    We Provide <span>Vinyl Wrapping</span> Services That You Can
-                    <span>Trust!</span>
+                    We Provide <span style="color: #8b5c2a;">Vinyl Wrapping</span> Services That You Can
+                    <span style="color: #8b5c2a;">Trust!</span>
                   </h1>
                   <p>
                     At TakeXnY, we provide vinyl wrapping services for furniture
@@ -180,7 +156,7 @@
                   </p>
                   <div class="button">
                     <a href="https://wa.me/27639260604" class="btn"
-                      >Request a Qoute</a
+                      >Get FREE Qoute</a
                     >
                     <a href="#" class="btn primary">Learn More</a>
                   </div>
@@ -209,7 +185,7 @@
                   <p>Transform your home today with our expert application!</p>
                   <div class="button">
                     <a href="https://wa.me/27639260604" class="btn"
-                      >Request a Qoute</a
+                      >Get FREE Qoute</a
                     >
                     <a href="#services" class="btn primary">Learn More</a>
                   </div>
@@ -244,7 +220,7 @@
                   </p>
                   <div class="button">
                     <a href="https://wa.me/27639260604" class="btn"
-                      >Request a Qoute</a
+                      >Get FREE Qoute</a
                     >
                     <a href="#services" class="btn primary">Learn More</a>
                   </div>
@@ -257,148 +233,72 @@
       </div>
     </section>
     <!--/ End Slider Area -->
-
-    <!-- Start Schedule Area -->
-    <section class="schedule">
+    <section id="services-cards" class="services-cards-section" style="padding: 50px 0;">
       <div class="container">
-        <div class="schedule-inner">
-          <div class="row">
-            <div class="col-lg-4 col-md-6 col-12">
-              <!-- single-schedule -->
-              <div class="single-schedule first">
-                <div class="inner">
-                  <div class="icon">
-                    <i class="fa fa-ambulance"></i>
-                  </div>
-                  <div class="single-content">
-                    <h4>Kitchen Vinyl Wrapping</h4>
-
-                    <p><img src="pic2.jpg" alt="" /></p>
-                    <a href="https://wa.me/27639260604"
-                      >LEARN MORE<i class="fa fa-long-arrow-right"></i
-                    ></a>
-                  </div>
-                </div>
+        <div class="row">
+          <div class="col-12">
+            <h2 style="text-align:center; font-weight:700; font-size:2.2rem; margin-bottom:38px; letter-spacing:1px;">Services We Provide</h2>
+          </div>
+        </div>
+        <div class="row">
+          <!-- Kitchen Wrapping Card -->
+          <div class="col-lg-4 col-md-6 col-12 mb-4">
+            <div class="card h-100 shadow-sm position-relative">
+              <div class="popular-ribbon">Most Popular</div>
+              <img src="pic2.jpg" class="card-img-top" alt="Kitchen Wrapping" style="height: 220px; object-fit: cover;">
+              <div class="card-body d-flex flex-column">
+                <h4 class="card-title">Kitchen Wrapping</h4>
+                <ul class="card-text" style="padding-left: 18px;">
+                  <li>Transform your kitchen with stylish vinyl wraps</li>
+                  <li>Wide range of colors and finishes</li>
+                  <li>Protects surfaces from scratches and stains</li>
+                  <li>Cost-effective alternative to renovation</li>
+                </ul>
+                <br>
+                <a href="#appointment" class="btn btn-primary mt-auto" style="margin-top: 20px;">Book Schedule</a>
               </div>
             </div>
-            <div class="col-lg-4 col-md-6 col-12">
-              <!-- single-schedule -->
-              <div class="single-schedule middle">
-                <div class="inner">
-                  <div class="icon">
-                    <i class="icofont-prescription"></i>
-                  </div>
-                  <div class="single-content">
-                    <h4>Fridge Vinyl Wrapping</h4>
-
-                    <p><img src="s-l1200.jpg" alt="" /></p>
-                    <a href="https://wa.me/27639260604"
-                      >LEARN MORE<i class="fa fa-long-arrow-right"></i
-                    ></a>
-                  </div>
-                </div>
+          </div>
+          <!-- Fridge Wrapping Card -->
+          <div class="col-lg-4 col-md-6 col-12 mb-4">
+            <div class="card h-100 shadow-sm">
+              <img src="vinyl/318472413_5694765860621874_7640909495295126096_n.jpg" class="card-img-top" alt="Fridge Wrapping" style="height: 220px; object-fit: cover;">
+              <div class="card-body d-flex flex-column">
+                <h4 class="card-title">Fridge Wrapping</h4>
+                <ul class="card-text" style="padding-left: 18px;">
+                  <li>Give your fridge a modern new look</li>
+                  <li>Durable and easy to clean vinyl</li>
+                  <li>Custom designs and finishes available</li>
+                  <li>Quick, mess-free installation</li>
+                </ul>
+                <br>
+                <a href="#appointment" class="btn btn-primary mt-auto" style="margin-top: 20px;">Book Schedule</a>
               </div>
             </div>
-            <div class="col-lg-4 col-md-12 col-12">
-              <!-- single-schedule -->
-              <div class="single-schedule last">
-                <div class="inner">
-                  <div class="icon">
-                    <i class="icofont-ui-clock"></i>
-                  </div>
-                  <div class="single-content">
-                    <h4>Working Hours</h4>
-                    <h4></h4>
-                    <ul class="time-sidual">
-                      <li class="day">
-                        Monday - Friday <span>8.00-20.00</span>
-                      </li>
-                      <li class="day">Saturday <span>9.00-18.30</span></li>
-                      <li class="day">
-                        Monday - Thusday <span>9.00-15.00</span>
-                      </li>
-                    </ul>
-                    <a href="https://wa.me/27639260604"
-                      >LEARN MORE<i class="fa fa-long-arrow-right"></i
-                    ></a>
-                  </div>
-                </div>
+          </div>
+          <!-- Sandblasting Card -->
+          <div class="col-lg-4 col-md-6 col-12 mb-4">
+            <div class="card h-100 shadow-sm">
+              <img src="vinyl/451839833_448204084797148_1676253374857061044_n.jpg" class="card-img-top" alt="Sandblasting" style="height: 220px; object-fit: cover;">
+              <div class="card-body d-flex flex-column">
+                <h4 class="card-title">Sandblasting</h4>
+                <ul class="card-text" style="padding-left: 18px;">
+                  <li>Professional sandblasting for glass and metal</li>
+                  <li>Enhance privacy and aesthetics</li>
+                  <li>Custom patterns and logos available</li>
+                  <li>Perfect for windows, doors, and partitions</li>
+                </ul>
+                <br>
+                <a href="#appointment" class="btn btn-primary mt-auto" style="margin-top: 20px;">Book Schedule</a>
               </div>
             </div>
           </div>
         </div>
       </div>
     </section>
-    <!--/End Start schedule Area -->
 
-    <!-- Start Feautes -->
-    <section class="Feautes section" id="about">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-12">
-            <div class="section-title">
-              <h2>We Are Always Ready to Help You & Your Family</h2>
-              <img src="img/section-img.png" alt="#" />
-              <p>
-                Our team of experts is dedicated to providing creative solutions
-                that give our customers the freedom to express their unique
-                style and personality in their homes or commercial spaces. We
-                take pride in offering a wide range of high-quality
-                architectural films that are not only cost-effective but also
-                environmentally friendly.
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-lg-4 col-12">
-            <!-- Start Single features -->
-            <div class="single-features">
-              <div class="signle-icon">
-                <i class="icofont-user-alt-4"></i>
-              </div>
-              <h3>Higly Skilled</h3>
-              <p>
-                Our highly skilled team at TakeXnY combines expertise and
-                precision, ensuring exceptional quality and attention to detail
-                in every vinyl wrap.
-              </p>
-            </div>
-            <!-- End Single features -->
-          </div>
-          <div class="col-lg-4 col-12">
-            <!-- Start Single features -->
-            <div class="single-features">
-              <div class="signle-icon">
-                <i class="icofont-money-bag"></i>
-              </div>
-              <h3>Cost Effective</h3>
-              <p>
-                Vinyl wrapping is a cost-effective alternative to rebuilding or
-                repainting, providing stunning results without the high expenses
-                or lengthy downtime.
-              </p>
-            </div>
-            <!-- End Single features -->
-          </div>
-          <div class="col-lg-4 col-12">
-            <!-- Start Single features -->
-            <div class="single-features last">
-              <div class="signle-icon">
-                <i class="icofont-building-alt"></i>
-              </div>
-              <h3>Innovative</h3>
-              <p>
-                At TakeXnY, we embrace innovation, using cutting-edge techniques
-                and materials to deliver unique vinyl wrapping solutions that
-                transform your space beautifully.
-              </p>
-            </div>
-            <!-- End Single features -->
-          </div>
-        </div>
-      </div>
-    </section>
+     <br><br><br>
+ 
     <!--/ End Feautes -->
 
     <!-- Start Fun-facts -->
@@ -661,6 +561,8 @@
       </div>
     </section>
     <!--/ End portfolio -->
+
+    <!-- Services Cards Section -->
 
     <!-- <div class="clients overlay">
 			<div class="container">

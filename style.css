@@ -48,11 +48,17 @@ Version:	1.1
 /*=============================
 	Global CSS 
 ===============================*/
+:root {
+  --primary-orange: #ff9800;
+  --dark-gray: #232323;
+}
+
 body{
     font-family: 'Poppins', sans-serif;
 	font-weight: 400;
 	font-size:14px;
 	color:#888;
+  background: #fdf6ef;
 }
 .pro-features {
 	position: fixed;
@@ -245,6 +251,7 @@ body{
 .header{
 	background-color:#fff;
 	position:relative;
+  background: #fff8f0;
 }
 .header .navbar-collapse{
 	padding:0;
@@ -590,10 +597,13 @@ body{
 	Start Hero Area CSS
 =============================*/
 .slider .single-slider {
-	height: 600px;
-	background-size: cover;
-	background-position: center;
-	background-repeat:no-repeat;
+  height: 90vh;
+  min-height: 400px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
 }
 .slider .single-slider .text{
 	margin-top:120px;
@@ -1468,7 +1478,7 @@ body{
 	border-radius: 3px;
 	margin: 0 0 0 -52px;
 	margin-top: 49px;
-	box-sizing: ;
+	box-sizing: border-box;
 }
 .testimonials .owl-dots .owl-dot {
 	display: inline-block;
@@ -4171,3 +4181,142 @@ body{
 /*=========================
 	End Footer CSS
 ===========================*/
+
+/* Force navbar get-quote button to always be visible */
+.header .header-inner .get-quote,
+.header .header-inner .get-quote .btn {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Style the navbar get-quote button to be nicely sized and centered */
+.header .header-inner .get-quote {
+  width: auto !important;
+  max-width: 180px;
+  margin: 0 auto !important;
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+}
+.header .header-inner .get-quote .btn {
+  width: auto !important;
+  min-width: 120px;
+  max-width: 180px;
+  padding: 8px 22px !important;
+  font-size: 15px !important;
+  border-radius: 4px !important;
+  white-space: nowrap;
+  display: inline-block !important;
+}
+
+.services-cards-section {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 0;
+}
+.services-cards-section .container {
+  flex: 1 1 auto;
+}
+.services-cards-section .card {
+  min-height: 480px;
+  height: 100%;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+}
+.services-cards-section .card-img-top {
+  height: 270px !important;
+  object-fit: cover;
+}
+@media (min-width: 992px) {
+  .services-cards-section .row {
+    justify-content: center;
+    gap: 32px;
+  }
+  .services-cards-section .col-lg-4 {
+    flex: 0 0 33.5%;
+    max-width: 33.5%;
+  }
+  .services-cards-section .row {
+    flex-wrap: nowrap !important;
+  }
+}
+
+.popular-ribbon {
+  position: absolute;
+  top: 18px;
+  left: -32px;
+  background: #8B5C2A;
+  color: #fff;
+  font-weight: bold;
+  font-size: 15px;
+  padding: 8px 38px;
+  transform: rotate(-35deg);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  z-index: 2;
+  letter-spacing: 1px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.services-cards-section .card-text li {
+  position: relative;
+  padding-left: 28px;
+  margin-bottom: 10px;
+  list-style: none;
+}
+.services-cards-section .card-text li:before {
+  content: '\2714';
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #27ae60;
+  font-size: 1.1em;
+  font-weight: bold;
+  line-height: 1.2;
+}
+
+#services-cards {
+  scroll-margin-top: 100px;
+}
+
+.btn, .btn-primary {
+  background: #8B5C2A !important;
+  border-color: #8B5C2A !important;
+  color: #fff !important;
+}
+.btn:before {
+  background: #6e431a !important;
+}
+.btn:hover, .btn-primary:hover {
+  background: #6e431a !important;
+  border-color: #6e431a !important;
+  color: #fff !important;
+}
+
+a {
+  color: #000 !important;
+}
+a:hover {
+  color: #6e431a !important;
+}
+
+.overlay:before {
+  background: #8B5C2A !important;
+}
+
+/* Remove forced text color overrides for headings and section titles */
+/*
+.section-title h2, h1, h2, h3, h4, h5, h6, .card-title {
+  color: #4a2e13 !important;
+}
+*/
+
+.footer {
+  background: #fff8f0 !important;
+}
