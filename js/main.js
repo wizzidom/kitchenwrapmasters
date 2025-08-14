@@ -33,10 +33,10 @@ Version:	1.1
 [End Activation Code]
 =========================================*/ 
 (function($) {
-    "use strict";
-     $(document).on('ready', function() {
+	"use strict";
+	 $(document).on('ready', function() {
 	
-        jQuery(window).on('scroll', function() {
+		jQuery(window).on('scroll', function() {
 			if ($(this).scrollTop() > 200) {
 				$('#header .header-inner').addClass("sticky");
 			} else {
@@ -268,7 +268,7 @@ Version:	1.1
 		==================*/		
 		var window_width = $(window).width();   
 			if(window_width > 767){
-            new WOW().init();
+			new WOW().init();
 		}
 	
 		/*===================
@@ -328,4 +328,37 @@ Version:	1.1
 	});
 	
 	
+	// Gallery Modal Logic
+	$(document).on('click', '.single-pf img', function() {
+		var beforeImg = $(this).data('before') || $(this).attr('src');
+		var afterImg = $(this).data('after') || $(this).attr('src');
+		$('#modalBeforeImg').attr('src', beforeImg);
+		$('#modalAfterImg').attr('src', afterImg);
+		try {
+			if (typeof $('#galleryModal').modal === 'function') {
+				$('#galleryModal').modal('show');
+			} else {
+				// fallback: show modal manually if Bootstrap JS is not working
+				$('#galleryModal').show().addClass('show').css('display', 'block');
+				$('body').addClass('modal-open');
+				// Add backdrop
+				if ($('.modal-backdrop').length === 0) {
+					$('<div class="modal-backdrop fade show"></div>').appendTo(document.body);
+				}
+			}
+		} catch (e) {
+			console.error('Modal error:', e);
+			$('#galleryModal').show().addClass('show').css('display', 'block');
+			$('body').addClass('modal-open');
+			if ($('.modal-backdrop').length === 0) {
+				$('<div class="modal-backdrop fade show"></div>').appendTo(document.body);
+			}
+		}
+	});
+	// Manual close for fallback
+	$(document).on('click', '#galleryModal .close', function() {
+		$('#galleryModal').removeClass('show').css('display', 'none');
+		$('body').removeClass('modal-open');
+		$('.modal-backdrop').remove();
+	});
 })(jQuery);
