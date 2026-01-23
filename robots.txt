@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://kitchenwrapmasters.co.za/sitemap.xml
+
+# Disallow certain directories for better crawling
+Disallow: /assets/js/
+Disallow: /assets/css/
+Disallow: /*.mp4$
