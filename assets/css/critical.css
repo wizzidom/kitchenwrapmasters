@@ -1,0 +1,188 @@
+/* Critical CSS for above-the-fold content */
+/* This should be inlined in the head for better performance */
+
+/* Reset and base styles */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+}
+
+/* Header styles */
+.header {
+  background: #fff;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  position: relative;
+  z-index: 999;
+}
+
+.header-inner {
+  padding: 15px 0;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo img {
+  margin-right: 10px;
+}
+
+/* Navigation */
+.navigation ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+.navigation li {
+  margin-right: 30px;
+}
+
+.navigation a {
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+/* Hero section */
+.slider {
+  position: relative;
+  min-height: 500px;
+}
+
+.single-slider {
+  background-size: cover;
+  background-position: center;
+  min-height: 500px;
+  display: flex;
+  align-items: center;
+}
+
+.text h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.text p {
+  font-size: 1.1rem;
+  margin-bottom: 30px;
+}
+
+/* Buttons */
+.btn {
+  display: inline-block;
+  padding: 12px 30px;
+  background: #8b5c2a;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: 600;
+  transition: all 0.3s;
+  border: none;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: #6d4521;
+  transform: translateY(-2px);
+}
+
+.btn.primary {
+  background: transparent;
+  border: 2px solid #8b5c2a;
+  color: #8b5c2a;
+}
+
+.btn.primary:hover {
+  background: #8b5c2a;
+  color: white;
+}
+
+/* Container */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+/* Grid system */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -15px;
+}
+
+.col-lg-7, .col-md-8, .col-12 {
+  padding: 0 15px;
+}
+
+.col-lg-7 {
+  flex: 0 0 58.333333%;
+  max-width: 58.333333%;
+}
+
+.col-md-8 {
+  flex: 0 0 66.666667%;
+  max-width: 66.666667%;
+}
+
+.col-12 {
+  flex: 0 0 100%;
+  max-width: 100%;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .col-lg-7, .col-md-8 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+  
+  .text h1 {
+    font-size: 2rem;
+  }
+  
+  .navigation ul {
+    flex-direction: column;
+  }
+  
+  .navigation li {
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+}
+
+/* Floating WhatsApp */
+.floating-whatsapp {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.floating-whatsapp a {
+  display: block;
+  width: 60px;
+  height: 60px;
+  background: #25d366;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  transition: transform 0.3s;
+}
+
+.floating-whatsapp a:hover {
+  transform: scale(1.1);
+}
