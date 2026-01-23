@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="View our gallery of before and after vinyl wrapping transformations. Kitchen and fridge wrapping projects by Kitchen Wrap Masters.">
-    <meta name="keywords" content="vinyl wrapping gallery, before after, kitchen transformation, fridge wrapping, South Africa">
+    <meta name="description" content="View our gallery of before and after vinyl wrapping transformations. Kitchen and fridge wrapping projects by Kitchen Wrap Masters in South Africa.">
+    <meta name="keywords" content="vinyl wrapping gallery, before after, kitchen transformation, fridge wrapping, South Africa, portfolio, projects">
     <meta name="robots" content="index, follow">
     <title>Gallery - Kitchen Wrap Masters | Before & After Transformations</title>
     <link rel="canonical" href="https://kitchenwrapmasters.co.za/gallery/">
@@ -12,31 +12,106 @@
     
     <!-- Open Graph -->
     <meta property="og:title" content="Vinyl Wrapping Gallery - Kitchen Wrap Masters">
-    <meta property="og:description" content="See amazing before and after transformations of kitchens and appliances with our vinyl wrapping services.">
+    <meta property="og:description" content="See amazing before and after transformations of kitchens and appliances with our vinyl wrapping services in South Africa.">
     <meta property="og:image" content="https://kitchenwrapmasters.co.za/gallery/before-after/kitchen after transfomation 1.jpeg">
     <meta property="og:url" content="https://kitchenwrapmasters.co.za/gallery/">
     
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ImageGallery",
+      "name": "Kitchen Wrap Masters Gallery",
+      "description": "Before and after gallery showcasing vinyl wrapping transformations",
+      "provider": {
+        "@type": "LocalBusiness",
+        "name": "Kitchen Wrap Masters"
+      }
+    }
+    </script>
+    
     <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="../assets/css/style.css">
+    <style>
+        .gallery-section { padding: 40px 0; }
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 30px; }
+        .gallery-item { border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .gallery-item img { width: 100%; height: 250px; object-fit: cover; }
+        .gallery-item h3 { padding: 15px; margin: 0; background: #f8f9fa; }
+        .cta-section { background-color: #8b5c2a; color: white; padding: 40px 0; text-align: center; margin-top: 40px; }
+    </style>
 </head>
 <body>
-    <h1>Our Work Gallery</h1>
-    <p>Explore our portfolio of successful vinyl wrapping projects and transformations.</p>
-    
-    <section>
-        <h2>Kitchen Transformations</h2>
-        <div class="gallery-grid">
-            <!-- Kitchen before/after images will be displayed here -->
-        </div>
-    </section>
-    
-    <section>
-        <h2>Fridge Wrapping Projects</h2>
-        <div class="gallery-grid">
-            <!-- Fridge before/after images will be displayed here -->
-        </div>
-    </section>
-    
-    <a href="../">Back to Home</a>
+    <div class="container">
+        <header style="padding: 20px 0;">
+            <nav>
+                <a href="../" style="text-decoration: none; color: #8b5c2a;">← Back to Home</a>
+            </nav>
+        </header>
+
+        <main>
+            <section class="gallery-section">
+                <h1>Our Work Gallery - Before & After Transformations</h1>
+                <p class="lead">Explore our portfolio of successful vinyl wrapping projects and see how we transform kitchens and appliances across South Africa.</p>
+            </section>
+            
+            <section class="gallery-section">
+                <h2>Kitchen Cabinet Transformations</h2>
+                <p>See how we've transformed tired kitchen cabinets into stunning focal points with our premium vinyl wrapping services.</p>
+                <div class="gallery-grid">
+                    <div class="gallery-item">
+                        <img src="before-after/kitchen after transfomation 1.jpeg" alt="Kitchen cabinet transformation - modern white finish" loading="lazy">
+                        <h3>Modern White Kitchen Makeover</h3>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="before-after/kitchen after transfomation 2.jpeg" alt="Kitchen cabinet transformation - wood grain finish" loading="lazy">
+                        <h3>Wood Grain Kitchen Renovation</h3>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="before-after/kitchen after transfomation 3.jpeg" alt="Kitchen cabinet transformation - contemporary design" loading="lazy">
+                        <h3>Contemporary Kitchen Update</h3>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="before-after/kitchen after transfomation 4.jpeg" alt="Kitchen cabinet transformation - sleek finish" loading="lazy">
+                        <h3>Sleek Modern Kitchen</h3>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="before-after/kitchen after transfomation 5.jpeg" alt="Kitchen cabinet transformation - elegant design" loading="lazy">
+                        <h3>Elegant Kitchen Redesign</h3>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="before-after/kitchen after transfomation 6.jpeg" alt="Kitchen cabinet transformation - luxury finish" loading="lazy">
+                        <h3>Luxury Kitchen Makeover</h3>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="gallery-section">
+                <h2>Fridge & Appliance Wrapping Projects</h2>
+                <p>Discover how we give refrigerators and appliances a fresh new look with our durable vinyl wrapping solutions.</p>
+                <div class="gallery-grid">
+                    <div class="gallery-item">
+                        <img src="before-after/fridge after transfomation 1.jpeg" alt="Fridge wrapping transformation - stainless steel look" loading="lazy">
+                        <h3>Stainless Steel Fridge Wrap</h3>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="before-after/fridge after transfomation 2.jpeg" alt="Fridge wrapping transformation - modern black finish" loading="lazy">
+                        <h3>Modern Black Fridge Makeover</h3>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="before-after/fridge after transfomation 3.jpeg" alt="Fridge wrapping transformation - custom design" loading="lazy">
+                        <h3>Custom Fridge Design</h3>
+                    </div>
+                </div>
+            </section>
+
+            <section class="cta-section">
+                <h2>Ready to Transform Your Space?</h2>
+                <p>Join hundreds of satisfied customers who have transformed their homes with Kitchen Wrap Masters.</p>
+                <a href="https://wa.me/27639260604" class="btn btn-light btn-lg">Get Your Free Quote Today</a>
+                <p style="margin-top: 15px;"><strong>Call:</strong> +27 63 926 0604</p>
+            </section>
+        </main>
+    </div>
 </body>
 </html>

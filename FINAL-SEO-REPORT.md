@@ -89,7 +89,7 @@
 - ✅ wallpaper installation South Africa
 
 ### **Long-tail Keywords:**
-- ✅ professional vinyl wrapping Soweto
+- ✅ professional vinyl wrapping Joburg South
 - ✅ kitchen cabinet wrapping services
 - ✅ appliance wrapping South Africa
 - ✅ home renovation vinyl wrapping
