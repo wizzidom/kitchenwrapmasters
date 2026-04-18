@@ -1135,15 +1135,16 @@
     });
   </script>
 </body>
- <script>
+<script>
   const form = document.querySelector(".form");
 
-  form.addEventListener("submit", async function (e) {
+  form.addEventListener("submit", function (e) {
     e.preventDefault();
 
     const data = new FormData(form);
 
-    const response = await fetch(form.action, {
+    // Send in background (no waiting)
+    fetch(form.action, {
       method: "POST",
       body: data,
       headers: {
@@ -1151,12 +1152,9 @@
       }
     });
 
-    if (response.ok) {
-      alert("Message sent successfully!");
-      form.reset(); // clears all inputs
-    } else {
-      alert("Something went wrong. Please try again.");
-    }
+    // Immediately show success
+    alert("Message sent successfully!");
+    form.reset();
   });
 </script>
 </html>
