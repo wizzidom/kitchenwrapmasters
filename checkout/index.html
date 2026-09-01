@@ -227,11 +227,9 @@
 document.getElementById('footer-year').textContent = new Date().getFullYear();
 
 // ---------------------------------------------------------------------------
-// CONFIG — update SITE_URL when your domain goes live
+// CONFIG
 // ---------------------------------------------------------------------------
-const SITE_URL       = 'https://classy-gecko-298aad.netlify.app'; // TODO: update to kitchenwrapmasters.co.za
-const MERCHANT_ID    = '25068580';
-const STORAGE_KEY    = 'kwm_cart';
+const STORAGE_KEY = 'kwm_cart';
 
 // ---------------------------------------------------------------------------
 // Cart helpers
@@ -351,17 +349,13 @@ function generateOrderRef() {
 }
 
 // ---------------------------------------------------------------------------
-// Build and submit the PayFast form
+// Build and submit — via server-side price validation
 // ---------------------------------------------------------------------------
-function submitToPayFast() {
+async function submitToPayFast() {
   clearError();
 
   const items = loadCart();
-  if (!items.length) {
-    showError('Your cart is empty.');
-    return;
-  }
-
+  if (!items.length) { showError('Your cart is empty.'); return; }
   if (!validate()) return;
 
   // Collect form values
@@ -375,84 +369,78 @@ function submitToPayFast() {
   const province = document.getElementById('co-province')?.value        || '';
   const postal   = document.getElementById('co-postal')?.value.trim()   || '';
   const notes    = document.getElementById('co-notes')?.value.trim()    || '';
+  const orderRef = generateOrderRef();
 
-  const subtotal     = getTotal(items);
-  const amountStr    = subtotal.toFixed(2);
-  const orderRef     = generateOrderRef();
-
-  // Build a readable item name for PayFast (max 255 chars)
-  const itemSummary = items
-    .map(i => `${i.name} x${i.qty}`)
-    .join(', ')
-    .slice(0, 254);
-
-  // Pack metadata into custom_str fields (used by notify function)
-  // custom_str1 = order reference
-  // custom_str2 = delivery method
-  // custom_str3 = address|city|province|postal
-  // custom_str4 = cart items JSON (URL-encoded)
-  // custom_str5 = phone|notes
-  const custom_str3 = [address, city, province, postal].join('|');
-  const custom_str4 = encodeURIComponent(JSON.stringify(items));
-  const custom_str5 = [phone, notes].join('|');
-
-  // PayFast form fields
-  const fields = {
-    merchant_id:   MERCHANT_ID,
-    merchant_key:  '', // intentionally blank — set as env var in notify function only
-    return_url:    `${SITE_URL}/order-confirmed/?ref=${orderRef}`,
-    cancel_url:    `${SITE_URL}/cart/`,
-    notify_url:    `${SITE_URL}/.netlify/functions/payfast-notify`,
-    name_first:    fname,
-    name_last:     lname,
-    email_address: email,
-    amount:        amountStr,
-    item_name:     itemSummary,
-    custom_str1:   orderRef,
-    custom_str2:   delivery,
-    custom_str3:   custom_str3,
-    custom_str4:   custom_str4,
-    custom_str5:   custom_str5,
-  };
-
-  // NOTE: merchant_key must NOT be in the form fields sent to the browser.
-  // PayFast's hosted checkout only needs merchant_id on the front-end.
-  // The signature verification happens server-side in the notify function.
-  // Remove the merchant_key field entirely from the form.
-  delete fields.merchant_key;
-
-  // Build and inject hidden form fields
-  const form = document.getElementById('payfast-form');
-  form.innerHTML = '';
-  Object.entries(fields).forEach(([name, value]) => {
-    if (value === undefined || value === null) return;
-    const input = document.createElement('input');
-    input.type  = 'hidden';
-    input.name  = name;
-    input.value = value;
-    form.appendChild(input);
-  });
-
-  // Show loading state on button
+  // Show loading state
   const btn = document.getElementById('place-order-btn');
   btn.disabled = true;
-  btn.innerHTML = '<span class="spinner" aria-hidden="true"></span> Redirecting to PayFast…';
+  btn.innerHTML = '<span class="spinner" aria-hidden="true"></span> Verifying order…';
 
-  // Track conversion attempt
-  if (typeof gtag !== 'undefined') {
-    gtag('event', 'begin_checkout', {
-      value:    subtotal,
-      currency: 'ZAR',
-      items:    items.map(i => ({ item_name: i.name, quantity: i.qty, price: i.price }))
+  try {
+    // Send cart to server — server recalculates price and returns PayFast fields
+    const response = await fetch('/.netlify/functions/create-payment', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        items,
+        orderRef,
+        customer: { firstName: fname, lastName: lname, email, phone },
+        delivery: { method: delivery, address, city, province, postal },
+        notes,
+      }),
     });
+
+    const data = await response.json();
+
+    if (!response.ok || !data.success) {
+      // Re-enable button and show server's error message
+      btn.disabled = false;
+      btn.innerHTML = 'Proceed to Payment';
+      showError(data.error || 'Something went wrong. Please try again or contact us.');
+      return;
+    }
+
+    // Update order summary with server-verified amount
+    const totalsEl = document.getElementById('checkout-totals');
+    if (totalsEl) {
+      totalsEl.querySelector('.order-line.grand span:last-child').textContent = `R${data.amount}`;
+    }
+
+    btn.innerHTML = '<span class="spinner" aria-hidden="true"></span> Redirecting to PayFast…';
+
+    // Track conversion
+    if (typeof gtag !== 'undefined') {
+      gtag('event', 'begin_checkout', {
+        value:    parseFloat(data.amount),
+        currency: 'ZAR',
+        items:    items.map(i => ({ item_name: i.name, quantity: i.qty })),
+      });
+    }
+
+    // Clear cart
+    localStorage.removeItem(STORAGE_KEY);
+    if (typeof KWMCart !== 'undefined') KWMCart.renderCart();
+
+    // Build hidden PayFast form from server-returned fields and submit
+    const form = document.getElementById('payfast-form');
+    form.innerHTML = '';
+    Object.entries(data.payfastFields).forEach(([name, value]) => {
+      if (value === undefined || value === null) return;
+      const input = document.createElement('input');
+      input.type  = 'hidden';
+      input.name  = name;
+      input.value = value;
+      form.appendChild(input);
+    });
+
+    form.submit();
+
+  } catch (err) {
+    console.error('KWM checkout error:', err);
+    btn.disabled = false;
+    btn.innerHTML = 'Proceed to Payment';
+    showError('Network error. Please check your connection and try again, or contact us on WhatsApp.');
   }
-
-  // Clear cart before redirect (PayFast return_url will show confirmation)
-  localStorage.removeItem(STORAGE_KEY);
-  if (typeof KWMCart !== 'undefined') KWMCart.renderCart();
-
-  // Submit to PayFast
-  form.submit();
 }
 
 // ---------------------------------------------------------------------------
