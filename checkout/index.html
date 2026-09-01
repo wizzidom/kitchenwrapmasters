@@ -22,10 +22,13 @@
     .delivery-option { display:flex; align-items:flex-start; gap:var(--sp-4); padding:var(--sp-4); border:1.5px solid var(--c-border); border-radius:var(--radius-sm); cursor:pointer; transition:border-color var(--duration) var(--ease); }
     .delivery-option:hover, .delivery-option.selected { border-color:var(--c-brown); }
     .delivery-option input[type=radio] { margin-top:3px; accent-color:var(--c-brown); }
-    .order-summary-col { background:var(--c-ivory); border:1px solid var(--c-border); padding:var(--sp-6); position:sticky; top:calc(var(--nav-h) + var(--sp-6)); }
+    .order-summary-col { background:var(--c-ivory); border:1px solid var(--c-border); padding:var(--sp-6); position:sticky; top:calc(var(--nav-h) + var(--sp-6)); border-radius:var(--radius-sm); }
     .order-line { display:flex; justify-content:space-between; align-items:center; font-size:var(--text-sm); padding:var(--sp-2) 0; }
     .order-line.grand { font-weight:700; font-size:var(--text-base); border-top:1px solid var(--c-border); padding-top:var(--sp-3); margin-top:var(--sp-2); }
-    .payfast-placeholder { background:var(--c-cream); border:2px dashed var(--c-border); padding:var(--sp-6); text-align:center; border-radius:var(--radius-md); }
+    .payfast-logo { display:flex; align-items:center; gap:var(--sp-3); padding:var(--sp-4) var(--sp-5); background:var(--c-cream); border:1px solid var(--c-border); border-radius:var(--radius-sm); font-size:var(--text-sm); color:var(--c-muted); }
+    .payfast-logo strong { color:var(--c-ink); }
+    .spinner { display:inline-block; width:18px; height:18px; border:2px solid rgba(255,255,255,.35); border-top-color:#fff; border-radius:50%; animation:spin .7s linear infinite; }
+    @keyframes spin { to { transform:rotate(360deg); } }
   </style>
 </head>
 <body>
@@ -33,30 +36,42 @@
 <!-- NAV (minimal for checkout) -->
 <header class="site-header page-header" id="site-header">
   <nav class="nav" aria-label="Main navigation">
-    <a href="/" class="nav__logo" aria-label="Kitchen Wrap Masters — Home"><img src="/assets/images/new2.png" alt="Kitchen Wrap Masters logo" class="nav__logo-img" width="44" height="44"></a>
+    <a href="/" class="nav__logo" aria-label="Kitchen Wrap Masters — Home">
+      <img src="/assets/images/new2.png" alt="Kitchen Wrap Masters logo" class="nav__logo-img" width="44" height="44">
+    </a>
     <div style="margin-left:auto;display:flex;align-items:center;gap:var(--sp-4);">
       <a href="/cart/" style="font-size:var(--text-sm);color:rgba(255,255,255,.7);">← Back to Cart</a>
       <a href="/shop/" class="nav__link" style="font-size:var(--text-sm);">Shop</a>
     </div>
-    <button class="nav__hamburger" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-menu"><span></span><span></span><span></span></button>
+    <button class="nav__hamburger" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-menu">
+      <span></span><span></span><span></span>
+    </button>
   </nav>
   <div class="nav__mobile-menu" id="mobile-menu" role="dialog" aria-label="Mobile navigation">
-    <a href="/cart/" class="nav__mobile-link">← Back to Cart</a><a href="/shop/" class="nav__mobile-link">Shop</a><a href="/" class="nav__mobile-link">Home</a>
+    <a href="/cart/" class="nav__mobile-link">← Back to Cart</a>
+    <a href="/shop/" class="nav__mobile-link">Shop</a>
+    <a href="/" class="nav__mobile-link">Home</a>
   </div>
 </header>
 
 <main id="main-content">
 <section style="padding-top:calc(var(--nav-h) + var(--sp-10));padding-bottom:var(--sp-24);">
   <div class="container">
-    <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span class="breadcrumb__sep">›</span><a href="/shop/">Shop</a><span class="breadcrumb__sep">›</span><a href="/cart/">Cart</a><span class="breadcrumb__sep">›</span><span aria-current="page">Checkout</span></nav>
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a><span class="breadcrumb__sep">›</span>
+      <a href="/shop/">Shop</a><span class="breadcrumb__sep">›</span>
+      <a href="/cart/">Cart</a><span class="breadcrumb__sep">›</span>
+      <span aria-current="page">Checkout</span>
+    </nav>
     <h1 style="margin-top:var(--sp-4);margin-bottom:var(--sp-8);">Checkout</h1>
 
-    <!-- Payment notice banner -->
-    <div style="background:#fff3cd;border:1px solid #ffc107;border-radius:var(--radius-md);padding:var(--sp-4) var(--sp-6);margin-bottom:var(--sp-8);font-size:var(--text-sm);">
-      <strong>⚠ Payment gateway not yet connected.</strong> This checkout collects your order details and sends them to us for manual processing. We will contact you to confirm your order and arrange payment via EFT or another method. PayFast integration will be added before the shop goes live. <a href="/contact/" style="color:var(--c-brown);font-weight:600;">Contact us</a> to place an order immediately.
+    <!-- Empty cart guard -->
+    <div id="empty-cart-notice" style="display:none;text-align:center;padding:var(--sp-16) 0;">
+      <p style="color:var(--c-muted);margin-bottom:var(--sp-6);">Your cart is empty.</p>
+      <a href="/shop/" class="btn btn--primary btn--lg">Browse the Shop</a>
     </div>
 
-    <div class="checkout-layout">
+    <div id="checkout-body" class="checkout-layout">
 
       <!-- LEFT: Forms -->
       <div>
@@ -68,20 +83,20 @@
             <div class="form-grid-2">
               <div class="form-group">
                 <label class="form-label" for="co-fname">First Name <span class="required">*</span></label>
-                <input type="text" id="co-fname" name="first_name" class="form-input" required autocomplete="given-name">
+                <input type="text" id="co-fname" class="form-input" required autocomplete="given-name">
               </div>
               <div class="form-group">
                 <label class="form-label" for="co-lname">Last Name <span class="required">*</span></label>
-                <input type="text" id="co-lname" name="last_name" class="form-input" required autocomplete="family-name">
+                <input type="text" id="co-lname" class="form-input" required autocomplete="family-name">
               </div>
             </div>
             <div class="form-group">
               <label class="form-label" for="co-email">Email Address <span class="required">*</span></label>
-              <input type="email" id="co-email" name="email" class="form-input" required autocomplete="email">
+              <input type="email" id="co-email" class="form-input" required autocomplete="email">
             </div>
             <div class="form-group">
               <label class="form-label" for="co-phone">Phone Number <span class="required">*</span></label>
-              <input type="tel" id="co-phone" name="phone" class="form-input" required autocomplete="tel" placeholder="+27 xx xxx xxxx">
+              <input type="tel" id="co-phone" class="form-input" required autocomplete="tel" placeholder="+27 xx xxx xxxx">
             </div>
           </div>
         </div>
@@ -106,20 +121,20 @@
             </label>
           </div>
 
-          <!-- Delivery address (shown for courier) -->
+          <!-- Delivery address (courier only) -->
           <div id="delivery-address-fields" style="margin-top:var(--sp-5);display:flex;flex-direction:column;gap:var(--sp-4);">
             <div class="form-group">
               <label class="form-label" for="co-address">Street Address <span class="required">*</span></label>
-              <input type="text" id="co-address" name="address" class="form-input" autocomplete="street-address">
+              <input type="text" id="co-address" class="form-input" autocomplete="street-address">
             </div>
             <div class="form-grid-2">
               <div class="form-group">
                 <label class="form-label" for="co-city">City <span class="required">*</span></label>
-                <input type="text" id="co-city" name="city" class="form-input" autocomplete="address-level2">
+                <input type="text" id="co-city" class="form-input" autocomplete="address-level2">
               </div>
               <div class="form-group">
                 <label class="form-label" for="co-province">Province</label>
-                <select id="co-province" name="province" class="form-select" autocomplete="address-level1">
+                <select id="co-province" class="form-select" autocomplete="address-level1">
                   <option value="">Select province</option>
                   <option value="Gauteng" selected>Gauteng</option>
                   <option value="Western Cape">Western Cape</option>
@@ -135,7 +150,7 @@
             </div>
             <div class="form-group" style="max-width:200px;">
               <label class="form-label" for="co-postal">Postal Code</label>
-              <input type="text" id="co-postal" name="postal_code" class="form-input" autocomplete="postal-code" pattern="[0-9]{4}">
+              <input type="text" id="co-postal" class="form-input" autocomplete="postal-code" pattern="[0-9]{4}">
             </div>
           </div>
         </div>
@@ -144,42 +159,47 @@
         <div class="checkout-section">
           <h3>Order Notes <span style="font-weight:400;font-size:var(--text-sm);color:var(--c-muted);">(optional)</span></h3>
           <div class="form-group">
-            <label class="form-label" for="co-notes">Notes about your order, e.g. specific colour requests or delivery instructions.</label>
-            <textarea id="co-notes" name="notes" class="form-textarea" rows="3" placeholder="Any special instructions or colour preferences for your samples…"></textarea>
+            <label class="form-label" for="co-notes">Notes about your order, e.g. delivery instructions.</label>
+            <textarea id="co-notes" class="form-textarea" rows="3" placeholder="Any special instructions or delivery notes…"></textarea>
           </div>
         </div>
 
-        <!-- Payment section -->
+        <!-- Payment -->
         <div class="checkout-section">
           <h3>Payment</h3>
-          <div class="payfast-placeholder">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--c-border)" stroke-width="1.5" aria-hidden="true" style="margin:0 auto var(--sp-3);display:block;"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
-            <p style="font-size:var(--text-sm);font-weight:600;color:var(--c-ink);margin-bottom:var(--sp-2);">PayFast Payment Gateway</p>
-            <p style="font-size:var(--text-xs);color:var(--c-muted);margin-bottom:var(--sp-3);">Secure payment via PayFast will be connected here. Supports credit/debit cards, EFT, Masterpass and other SA payment methods.</p>
-            <div style="display:inline-flex;gap:var(--sp-2);align-items:center;background:var(--c-white);padding:var(--sp-2) var(--sp-4);border-radius:var(--radius-sm);border:1px solid var(--c-border);">
-              <span style="font-size:var(--text-xs);color:var(--c-muted);">Integration point:</span>
-              <code style="font-size:var(--text-xs);color:var(--c-brown);">payfast.co.za</code>
-            </div>
-            <!-- OWNER: Replace this placeholder with PayFast payment form. 
-                 PayFast sandbox: https://sandbox.payfast.co.za/eng/process
-                 PayFast docs: https://developers.payfast.co.za/
-                 Required fields: merchant_id, merchant_key, amount, item_name, return_url, cancel_url, notify_url
-                 For static sites, use PayFast's onsite payment or hosted checkout redirect. -->
+          <div class="payfast-logo" style="margin-bottom:var(--sp-4);">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--c-brown)" stroke-width="2" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+            <span><strong>Secure payment via PayFast</strong> — credit/debit card, EFT, Instant EFT &amp; more.</span>
           </div>
+          <p style="font-size:var(--text-xs);color:var(--c-muted);line-height:1.7;">
+            Clicking "Proceed to Payment" will take you to PayFast's secure payment page. Once payment is confirmed, you'll be returned to our site and your order will be saved automatically.
+          </p>
         </div>
 
-        <!-- Place order button -->
-        <button id="place-order-btn" class="btn btn--primary btn--xl btn--full" onclick="placeOrder()">Place Order &amp; Confirm via WhatsApp</button>
-        <p style="font-size:var(--text-xs);color:var(--c-muted);text-align:center;margin-top:var(--sp-3);">By placing your order you agree to our <a href="/terms-and-conditions/" style="color:var(--c-brown);">Terms &amp; Conditions</a>. We'll contact you to confirm payment.</p>
+        <!-- Validation error -->
+        <div id="form-error" style="display:none;background:#fdecea;border:1px solid #f5c6c2;border-radius:var(--radius-md);padding:var(--sp-4) var(--sp-5);margin-bottom:var(--sp-5);font-size:var(--text-sm);color:#c0392b;" role="alert"></div>
+
+        <!-- Submit button -->
+        <button id="place-order-btn" class="btn btn--primary btn--xl btn--full" onclick="submitToPayFast()" type="button">
+          Proceed to Payment
+        </button>
+        <p style="font-size:var(--text-xs);color:var(--c-muted);text-align:center;margin-top:var(--sp-3);">
+          By placing your order you agree to our <a href="/terms-and-conditions/" style="color:var(--c-brown);">Terms &amp; Conditions</a>.
+        </p>
+
+        <!-- Hidden PayFast form — built and submitted by JS -->
+        <form id="payfast-form" action="https://www.payfast.co.za/eng/process" method="POST" style="display:none;" aria-hidden="true">
+          <!-- Fields injected by submitToPayFast() -->
+        </form>
       </div>
 
       <!-- RIGHT: Order summary -->
-      <div class="order-summary-col" style="border-radius:var(--radius-sm);">
+      <div class="order-summary-col">
         <h3 style="font-size:var(--text-xl);margin-bottom:var(--sp-5);">Order Summary</h3>
         <div id="checkout-order-items" style="margin-bottom:var(--sp-5);display:flex;flex-direction:column;gap:var(--sp-4);">
           <!-- Populated by JS -->
         </div>
-        <div id="checkout-totals" style="display:flex;flex-direction:column;gap:0;">
+        <div id="checkout-totals">
           <!-- Populated by JS -->
         </div>
         <div style="margin-top:var(--sp-5);padding-top:var(--sp-5);border-top:1px solid var(--c-border);">
@@ -187,64 +207,96 @@
         </div>
       </div>
 
-    </div>
+    </div><!-- /.checkout-layout -->
   </div>
 </section>
+</main>
 
-<!-- Order success overlay -->
-<div id="order-success" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:9999;align-items:center;justify-content:center;">
-  <div style="background:var(--c-white);padding:var(--sp-12);border-radius:var(--radius-lg);max-width:480px;text-align:center;margin:var(--sp-6);">
-    <div style="width:64px;height:64px;border-radius:50%;background:#e8f5ee;display:flex;align-items:center;justify-content:center;margin:0 auto var(--sp-5);">
-      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#2d7a4f" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-    </div>
-    <h2 style="font-size:var(--text-2xl);margin-bottom:var(--sp-3);">Order Submitted!</h2>
-    <p style="color:var(--c-muted);margin-bottom:var(--sp-6);">Your order summary has been sent to us. We'll contact you within one business day to confirm your order and arrange payment.</p>
-    <div style="display:flex;flex-direction:column;gap:var(--sp-3);">
-      <a id="success-wa-link" href="https://wa.me/27688169590" class="btn btn--whatsapp btn--full" target="_blank" rel="noopener">Follow Up on WhatsApp</a>
-      <a href="/" class="btn btn--outline btn--full">Back to Home</a>
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-bottom">
+    <div class="container" style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:var(--sp-3);align-items:center;">
+      <p style="color:inherit;font-size:inherit;">© <span id="footer-year"></span> Kitchen Wrap Masters.</p>
+      <div class="footer-legal"><a href="/terms-and-conditions/">Terms</a><a href="/privacy-policy/">Privacy</a></div>
     </div>
   </div>
-</div>
-
-</main>
+</footer>
 
 <script src="/assets/js/kwm.js"></script>
 <script>
-document.getElementById('footer-year') && (document.getElementById('footer-year').textContent = new Date().getFullYear());
+document.getElementById('footer-year').textContent = new Date().getFullYear();
 
-const STORAGE_KEY = 'kwm_cart';
-function loadCart() { try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; } catch { return []; } }
-function getTotal(items) { return items.reduce((s,i) => s + i.price*(i.qty||1), 0); }
+// ---------------------------------------------------------------------------
+// CONFIG — update SITE_URL when your domain goes live
+// ---------------------------------------------------------------------------
+const SITE_URL       = 'https://classy-gecko-298aad.netlify.app'; // TODO: update to kitchenwrapmasters.co.za
+const MERCHANT_ID    = '25068580';
+const STORAGE_KEY    = 'kwm_cart';
 
+// ---------------------------------------------------------------------------
+// Cart helpers
+// ---------------------------------------------------------------------------
+function loadCart() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+  catch { return []; }
+}
+
+function getTotal(items) {
+  return items.reduce((s, i) => s + (parseFloat(i.price) * (i.qty || 1)), 0);
+}
+
+// ---------------------------------------------------------------------------
+// Render order summary (right column)
+// ---------------------------------------------------------------------------
 function renderCheckoutSummary() {
-  const items = loadCart();
-  const itemsEl = document.getElementById('checkout-order-items');
+  const items    = loadCart();
+  const itemsEl  = document.getElementById('checkout-order-items');
   const totalsEl = document.getElementById('checkout-totals');
+  const body     = document.getElementById('checkout-body');
+  const empty    = document.getElementById('empty-cart-notice');
 
   if (!items.length) {
-    itemsEl.innerHTML = '<p style="font-size:var(--text-sm);color:var(--c-muted);">Your cart is empty. <a href="/shop/" style="color:var(--c-brown);">Browse the shop</a>.</p>';
-    totalsEl.innerHTML = '';
+    body.style.display  = 'none';
+    empty.style.display = 'block';
     return;
   }
 
   itemsEl.innerHTML = items.map(item => `
-    <div style="display:flex;gap:var(--sp-3);align-items:center;">
-      <img src="${item.image||'/assets/images/new2.png'}" alt="${item.name}" style="width:52px;height:52px;object-fit:cover;border-radius:var(--radius-sm);background:var(--c-cream);flex-shrink:0;">
-      <div style="flex:1;">
+    <div style="display:flex;gap:var(--sp-3);align-items:flex-start;">
+      <img src="${item.image || '/assets/images/new2.png'}"
+           alt="${item.name}"
+           style="width:52px;height:52px;object-fit:cover;border-radius:var(--radius-sm);background:var(--c-cream);flex-shrink:0;">
+      <div style="flex:1;min-width:0;">
         <div style="font-size:var(--text-sm);font-weight:600;color:var(--c-ink);">${item.name}</div>
-        ${item.variant ? `<div style="font-size:var(--text-xs);color:var(--c-muted);">${item.variant}</div>` : ''}
+        ${item.variant
+          ? item.variant.split(' | ').map(v =>
+              `<div style="font-size:var(--text-xs);color:var(--c-muted);">${v}</div>`
+            ).join('')
+          : ''}
         <div style="font-size:var(--text-xs);color:var(--c-muted);">Qty: ${item.qty}</div>
       </div>
-      <div style="font-weight:700;font-size:var(--text-sm);">R${(item.price*item.qty).toFixed(2)}</div>
+      <div style="font-weight:700;font-size:var(--text-sm);white-space:nowrap;">R${(parseFloat(item.price) * item.qty).toFixed(2)}</div>
     </div>`).join('');
 
   const subtotal = getTotal(items);
   totalsEl.innerHTML = `
-    <div class="order-line"><span>Subtotal (${items.reduce((s,i)=>s+i.qty,0)} items)</span><span>R${subtotal.toFixed(2)}</span></div>
-    <div class="order-line"><span style="color:var(--c-muted);">Delivery</span><span style="color:var(--c-muted);">TBC</span></div>
-    <div class="order-line grand"><span>Order Total</span><span>R${subtotal.toFixed(2)}</span></div>`;
+    <div class="order-line">
+      <span>Subtotal (${items.reduce((s, i) => s + i.qty, 0)} items)</span>
+      <span>R${subtotal.toFixed(2)}</span>
+    </div>
+    <div class="order-line">
+      <span style="color:var(--c-muted);">Delivery</span>
+      <span style="color:var(--c-muted);">TBC</span>
+    </div>
+    <div class="order-line grand">
+      <span>Order Total</span>
+      <span>R${subtotal.toFixed(2)}</span>
+    </div>`;
 }
 
+// ---------------------------------------------------------------------------
+// Delivery toggle
+// ---------------------------------------------------------------------------
 function selectDelivery(input) {
   document.querySelectorAll('.delivery-option').forEach(l => l.classList.remove('selected'));
   input.closest('.delivery-option').classList.add('selected');
@@ -252,41 +304,160 @@ function selectDelivery(input) {
   if (addrFields) addrFields.style.display = input.value === 'courier' ? '' : 'none';
 }
 
-function placeOrder() {
-  const items = loadCart();
-  if (!items.length) { alert('Your cart is empty.'); return; }
+// ---------------------------------------------------------------------------
+// Form validation
+// ---------------------------------------------------------------------------
+function showError(msg) {
+  const el = document.getElementById('form-error');
+  el.textContent = msg;
+  el.style.display = 'block';
+  el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
 
-  const fname = document.getElementById('co-fname')?.value.trim();
-  const email = document.getElementById('co-email')?.value.trim();
-  const phone = document.getElementById('co-phone')?.value.trim();
-  if (!fname || !email || !phone) { alert('Please fill in your name, email and phone number.'); return; }
+function clearError() {
+  const el = document.getElementById('form-error');
+  el.style.display = 'none';
+  el.textContent = '';
+}
 
-  const delivery = document.querySelector('input[name="delivery"]:checked')?.value || 'courier';
-  const notes = document.getElementById('co-notes')?.value.trim();
-  const subtotal = getTotal(items);
+function validate() {
+  const fname    = document.getElementById('co-fname')?.value.trim();
+  const lname    = document.getElementById('co-lname')?.value.trim();
+  const email    = document.getElementById('co-email')?.value.trim();
+  const phone    = document.getElementById('co-phone')?.value.trim();
+  const delivery = document.querySelector('input[name="delivery"]:checked')?.value;
 
-  // Build WhatsApp order message
-  const orderLines = items.map(i => `• ${i.name}${i.variant ? ` (${i.variant})` : ''} x${i.qty} = R${(i.price*i.qty).toFixed(2)}`).join('\n');
-  const msg = `Hi, I've placed an order on your website:\n\n*Order Details:*\n${orderLines}\n\nSubtotal: R${subtotal.toFixed(2)}\nDelivery: ${delivery}\n\n*Customer:*\nName: ${fname}\nPhone: ${phone}\nEmail: ${email}\n${notes ? `\nNotes: ${notes}` : ''}`;
+  if (!fname)  { showError('Please enter your first name.');  return false; }
+  if (!lname)  { showError('Please enter your last name.');   return false; }
+  if (!email)  { showError('Please enter your email address.'); return false; }
+  if (!phone)  { showError('Please enter your phone number.'); return false; }
 
-  // Update success WA link
-  document.getElementById('success-wa-link').href = `https://wa.me/27688169590?text=${encodeURIComponent(msg)}`;
-
-  // Track conversion
-  if (typeof gtag !== 'undefined') {
-    gtag('event', 'purchase', { transaction_id: Date.now().toString(), value: subtotal, currency: 'ZAR', items: items.map(i => ({item_name:i.name, quantity:i.qty, price:i.price})) });
+  if (delivery === 'courier') {
+    const address = document.getElementById('co-address')?.value.trim();
+    const city    = document.getElementById('co-city')?.value.trim();
+    if (!address) { showError('Please enter your street address.'); return false; }
+    if (!city)    { showError('Please enter your city.'); return false; }
   }
 
-  // Clear cart
+  return true;
+}
+
+// ---------------------------------------------------------------------------
+// Generate a unique order reference
+// ---------------------------------------------------------------------------
+function generateOrderRef() {
+  const rand = Math.random().toString(36).slice(2, 6).toUpperCase();
+  return `KWM-${Date.now()}-${rand}`;
+}
+
+// ---------------------------------------------------------------------------
+// Build and submit the PayFast form
+// ---------------------------------------------------------------------------
+function submitToPayFast() {
+  clearError();
+
+  const items = loadCart();
+  if (!items.length) {
+    showError('Your cart is empty.');
+    return;
+  }
+
+  if (!validate()) return;
+
+  // Collect form values
+  const fname    = document.getElementById('co-fname').value.trim();
+  const lname    = document.getElementById('co-lname').value.trim();
+  const email    = document.getElementById('co-email').value.trim();
+  const phone    = document.getElementById('co-phone').value.trim();
+  const delivery = document.querySelector('input[name="delivery"]:checked').value;
+  const address  = document.getElementById('co-address')?.value.trim()  || '';
+  const city     = document.getElementById('co-city')?.value.trim()     || '';
+  const province = document.getElementById('co-province')?.value        || '';
+  const postal   = document.getElementById('co-postal')?.value.trim()   || '';
+  const notes    = document.getElementById('co-notes')?.value.trim()    || '';
+
+  const subtotal     = getTotal(items);
+  const amountStr    = subtotal.toFixed(2);
+  const orderRef     = generateOrderRef();
+
+  // Build a readable item name for PayFast (max 255 chars)
+  const itemSummary = items
+    .map(i => `${i.name} x${i.qty}`)
+    .join(', ')
+    .slice(0, 254);
+
+  // Pack metadata into custom_str fields (used by notify function)
+  // custom_str1 = order reference
+  // custom_str2 = delivery method
+  // custom_str3 = address|city|province|postal
+  // custom_str4 = cart items JSON (URL-encoded)
+  // custom_str5 = phone|notes
+  const custom_str3 = [address, city, province, postal].join('|');
+  const custom_str4 = encodeURIComponent(JSON.stringify(items));
+  const custom_str5 = [phone, notes].join('|');
+
+  // PayFast form fields
+  const fields = {
+    merchant_id:   MERCHANT_ID,
+    merchant_key:  '', // intentionally blank — set as env var in notify function only
+    return_url:    `${SITE_URL}/order-confirmed/?ref=${orderRef}`,
+    cancel_url:    `${SITE_URL}/cart/`,
+    notify_url:    `${SITE_URL}/.netlify/functions/payfast-notify`,
+    name_first:    fname,
+    name_last:     lname,
+    email_address: email,
+    amount:        amountStr,
+    item_name:     itemSummary,
+    custom_str1:   orderRef,
+    custom_str2:   delivery,
+    custom_str3:   custom_str3,
+    custom_str4:   custom_str4,
+    custom_str5:   custom_str5,
+  };
+
+  // NOTE: merchant_key must NOT be in the form fields sent to the browser.
+  // PayFast's hosted checkout only needs merchant_id on the front-end.
+  // The signature verification happens server-side in the notify function.
+  // Remove the merchant_key field entirely from the form.
+  delete fields.merchant_key;
+
+  // Build and inject hidden form fields
+  const form = document.getElementById('payfast-form');
+  form.innerHTML = '';
+  Object.entries(fields).forEach(([name, value]) => {
+    if (value === undefined || value === null) return;
+    const input = document.createElement('input');
+    input.type  = 'hidden';
+    input.name  = name;
+    input.value = value;
+    form.appendChild(input);
+  });
+
+  // Show loading state on button
+  const btn = document.getElementById('place-order-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner" aria-hidden="true"></span> Redirecting to PayFast…';
+
+  // Track conversion attempt
+  if (typeof gtag !== 'undefined') {
+    gtag('event', 'begin_checkout', {
+      value:    subtotal,
+      currency: 'ZAR',
+      items:    items.map(i => ({ item_name: i.name, quantity: i.qty, price: i.price }))
+    });
+  }
+
+  // Clear cart before redirect (PayFast return_url will show confirmation)
   localStorage.removeItem(STORAGE_KEY);
   if (typeof KWMCart !== 'undefined') KWMCart.renderCart();
 
-  // Show success
-  const overlay = document.getElementById('order-success');
-  overlay.style.display = 'flex';
-  document.body.style.overflow = 'hidden';
+  // Submit to PayFast
+  form.submit();
 }
 
+// ---------------------------------------------------------------------------
+// Init
+// ---------------------------------------------------------------------------
 renderCheckoutSummary();
 </script>
 </body>
