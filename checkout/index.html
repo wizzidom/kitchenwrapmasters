@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en-ZA">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Checkout | Kitchen Wrap Masters Shop</title>
+  <meta name="description" content="Complete your Kitchen Wrap Masters order — vinyl samples and materials delivered across South Africa.">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="canonical" href="https://kitchenwrapmasters.co.za/checkout/">
+  <link rel="icon" type="image/png" href="/assets/images/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/kwm.css">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FH6YL6B9MZ"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-FH6YL6B9MZ');</script>
+  <style>
+    .checkout-layout { display:grid; grid-template-columns:1fr 380px; gap:var(--sp-12); align-items:start; }
+    @media(max-width:900px){ .checkout-layout { grid-template-columns:1fr; } .order-summary-col { order:-1; } }
+    .checkout-section { background:var(--c-white); border:1px solid var(--c-border); padding:var(--sp-7); margin-bottom:var(--sp-5); border-radius:var(--radius-sm); }
+    .checkout-section h3 { font-size:var(--text-lg); margin-bottom:var(--sp-5); padding-bottom:var(--sp-3); border-bottom:1px solid var(--c-border); }
+    .delivery-option { display:flex; align-items:flex-start; gap:var(--sp-4); padding:var(--sp-4); border:1.5px solid var(--c-border); border-radius:var(--radius-sm); cursor:pointer; transition:border-color var(--duration) var(--ease); }
+    .delivery-option:hover, .delivery-option.selected { border-color:var(--c-brown); }
+    .delivery-option input[type=radio] { margin-top:3px; accent-color:var(--c-brown); }
+    .order-summary-col { background:var(--c-ivory); border:1px solid var(--c-border); padding:var(--sp-6); position:sticky; top:calc(var(--nav-h) + var(--sp-6)); }
+    .order-line { display:flex; justify-content:space-between; align-items:center; font-size:var(--text-sm); padding:var(--sp-2) 0; }
+    .order-line.grand { font-weight:700; font-size:var(--text-base); border-top:1px solid var(--c-border); padding-top:var(--sp-3); margin-top:var(--sp-2); }
+    .payfast-placeholder { background:var(--c-cream); border:2px dashed var(--c-border); padding:var(--sp-6); text-align:center; border-radius:var(--radius-md); }
+  </style>
+</head>
+<body>
+
+<!-- NAV (minimal for checkout) -->
+<header class="site-header page-header" id="site-header">
+  <nav class="nav" aria-label="Main navigation">
+    <a href="/" class="nav__logo" aria-label="Kitchen Wrap Masters — Home"><img src="/assets/images/new2.png" alt="Kitchen Wrap Masters logo" class="nav__logo-img" width="44" height="44"></a>
+    <div style="margin-left:auto;display:flex;align-items:center;gap:var(--sp-4);">
+      <a href="/cart/" style="font-size:var(--text-sm);color:rgba(255,255,255,.7);">← Back to Cart</a>
+      <a href="/shop/" class="nav__link" style="font-size:var(--text-sm);">Shop</a>
+    </div>
+    <button class="nav__hamburger" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-menu"><span></span><span></span><span></span></button>
+  </nav>
+  <div class="nav__mobile-menu" id="mobile-menu" role="dialog" aria-label="Mobile navigation">
+    <a href="/cart/" class="nav__mobile-link">← Back to Cart</a><a href="/shop/" class="nav__mobile-link">Shop</a><a href="/" class="nav__mobile-link">Home</a>
+  </div>
+</header>
+
+<main id="main-content">
+<section style="padding-top:calc(var(--nav-h) + var(--sp-10));padding-bottom:var(--sp-24);">
+  <div class="container">
+    <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span class="breadcrumb__sep">›</span><a href="/shop/">Shop</a><span class="breadcrumb__sep">›</span><a href="/cart/">Cart</a><span class="breadcrumb__sep">›</span><span aria-current="page">Checkout</span></nav>
+    <h1 style="margin-top:var(--sp-4);margin-bottom:var(--sp-8);">Checkout</h1>
+
+    <!-- Payment notice banner -->
+    <div style="background:#fff3cd;border:1px solid #ffc107;border-radius:var(--radius-md);padding:var(--sp-4) var(--sp-6);margin-bottom:var(--sp-8);font-size:var(--text-sm);">
+      <strong>⚠ Payment gateway not yet connected.</strong> This checkout collects your order details and sends them to us for manual processing. We will contact you to confirm your order and arrange payment via EFT or another method. PayFast integration will be added before the shop goes live. <a href="/contact/" style="color:var(--c-brown);font-weight:600;">Contact us</a> to place an order immediately.
+    </div>
+
+    <div class="checkout-layout">
+
+      <!-- LEFT: Forms -->
+      <div>
+
+        <!-- Contact info -->
+        <div class="checkout-section">
+          <h3>Contact Information</h3>
+          <div style="display:flex;flex-direction:column;gap:var(--sp-4);">
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label class="form-label" for="co-fname">First Name <span class="required">*</span></label>
+                <input type="text" id="co-fname" name="first_name" class="form-input" required autocomplete="given-name">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="co-lname">Last Name <span class="required">*</span></label>
+                <input type="text" id="co-lname" name="last_name" class="form-input" required autocomplete="family-name">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="co-email">Email Address <span class="required">*</span></label>
+              <input type="email" id="co-email" name="email" class="form-input" required autocomplete="email">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="co-phone">Phone Number <span class="required">*</span></label>
+              <input type="tel" id="co-phone" name="phone" class="form-input" required autocomplete="tel" placeholder="+27 xx xxx xxxx">
+            </div>
+          </div>
+        </div>
+
+        <!-- Delivery method -->
+        <div class="checkout-section">
+          <h3>Delivery Method</h3>
+          <div style="display:flex;flex-direction:column;gap:var(--sp-3);">
+            <label class="delivery-option selected" id="del-courier-label">
+              <input type="radio" name="delivery" value="courier" id="del-courier" checked onchange="selectDelivery(this)">
+              <div>
+                <strong style="display:block;font-size:var(--text-sm);">Courier Delivery</strong>
+                <span style="font-size:var(--text-xs);color:var(--c-muted);">Gauteng: 1–2 business days · Other provinces: 3–5 days. Delivery cost confirmed after order.</span>
+              </div>
+            </label>
+            <label class="delivery-option" id="del-collect-label">
+              <input type="radio" name="delivery" value="collect" id="del-collect" onchange="selectDelivery(this)">
+              <div>
+                <strong style="display:block;font-size:var(--text-sm);">Collect from Johannesburg South</strong>
+                <span style="font-size:var(--text-xs);color:var(--c-muted);">Rifle Range Rd, Mondeor, JHB South 2091. We'll confirm ready time via WhatsApp.</span>
+              </div>
+            </label>
+          </div>
+
+          <!-- Delivery address (shown for courier) -->
+          <div id="delivery-address-fields" style="margin-top:var(--sp-5);display:flex;flex-direction:column;gap:var(--sp-4);">
+            <div class="form-group">
+              <label class="form-label" for="co-address">Street Address <span class="required">*</span></label>
+              <input type="text" id="co-address" name="address" class="form-input" autocomplete="street-address">
+            </div>
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label class="form-label" for="co-city">City <span class="required">*</span></label>
+                <input type="text" id="co-city" name="city" class="form-input" autocomplete="address-level2">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="co-province">Province</label>
+                <select id="co-province" name="province" class="form-select" autocomplete="address-level1">
+                  <option value="">Select province</option>
+                  <option value="Gauteng" selected>Gauteng</option>
+                  <option value="Western Cape">Western Cape</option>
+                  <option value="KwaZulu-Natal">KwaZulu-Natal</option>
+                  <option value="Eastern Cape">Eastern Cape</option>
+                  <option value="Limpopo">Limpopo</option>
+                  <option value="Mpumalanga">Mpumalanga</option>
+                  <option value="North West">North West</option>
+                  <option value="Free State">Free State</option>
+                  <option value="Northern Cape">Northern Cape</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group" style="max-width:200px;">
+              <label class="form-label" for="co-postal">Postal Code</label>
+              <input type="text" id="co-postal" name="postal_code" class="form-input" autocomplete="postal-code" pattern="[0-9]{4}">
+            </div>
+          </div>
+        </div>
+
+        <!-- Order notes -->
+        <div class="checkout-section">
+          <h3>Order Notes <span style="font-weight:400;font-size:var(--text-sm);color:var(--c-muted);">(optional)</span></h3>
+          <div class="form-group">
+            <label class="form-label" for="co-notes">Notes about your order, e.g. specific colour requests or delivery instructions.</label>
+            <textarea id="co-notes" name="notes" class="form-textarea" rows="3" placeholder="Any special instructions or colour preferences for your samples…"></textarea>
+          </div>
+        </div>
+
+        <!-- Payment section -->
+        <div class="checkout-section">
+          <h3>Payment</h3>
+          <div class="payfast-placeholder">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--c-border)" stroke-width="1.5" aria-hidden="true" style="margin:0 auto var(--sp-3);display:block;"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+            <p style="font-size:var(--text-sm);font-weight:600;color:var(--c-ink);margin-bottom:var(--sp-2);">PayFast Payment Gateway</p>
+            <p style="font-size:var(--text-xs);color:var(--c-muted);margin-bottom:var(--sp-3);">Secure payment via PayFast will be connected here. Supports credit/debit cards, EFT, Masterpass and other SA payment methods.</p>
+            <div style="display:inline-flex;gap:var(--sp-2);align-items:center;background:var(--c-white);padding:var(--sp-2) var(--sp-4);border-radius:var(--radius-sm);border:1px solid var(--c-border);">
+              <span style="font-size:var(--text-xs);color:var(--c-muted);">Integration point:</span>
+              <code style="font-size:var(--text-xs);color:var(--c-brown);">payfast.co.za</code>
+            </div>
+            <!-- OWNER: Replace this placeholder with PayFast payment form. 
+                 PayFast sandbox: https://sandbox.payfast.co.za/eng/process
+                 PayFast docs: https://developers.payfast.co.za/
+                 Required fields: merchant_id, merchant_key, amount, item_name, return_url, cancel_url, notify_url
+                 For static sites, use PayFast's onsite payment or hosted checkout redirect. -->
+          </div>
+        </div>
+
+        <!-- Place order button -->
+        <button id="place-order-btn" class="btn btn--primary btn--xl btn--full" onclick="placeOrder()">Place Order &amp; Confirm via WhatsApp</button>
+        <p style="font-size:var(--text-xs);color:var(--c-muted);text-align:center;margin-top:var(--sp-3);">By placing your order you agree to our <a href="/terms-and-conditions/" style="color:var(--c-brown);">Terms &amp; Conditions</a>. We'll contact you to confirm payment.</p>
+      </div>
+
+      <!-- RIGHT: Order summary -->
+      <div class="order-summary-col" style="border-radius:var(--radius-sm);">
+        <h3 style="font-size:var(--text-xl);margin-bottom:var(--sp-5);">Order Summary</h3>
+        <div id="checkout-order-items" style="margin-bottom:var(--sp-5);display:flex;flex-direction:column;gap:var(--sp-4);">
+          <!-- Populated by JS -->
+        </div>
+        <div id="checkout-totals" style="display:flex;flex-direction:column;gap:0;">
+          <!-- Populated by JS -->
+        </div>
+        <div style="margin-top:var(--sp-5);padding-top:var(--sp-5);border-top:1px solid var(--c-border);">
+          <a href="/cart/" style="font-size:var(--text-sm);color:var(--c-brown);font-weight:600;">← Edit Cart</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Order success overlay -->
+<div id="order-success" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:9999;align-items:center;justify-content:center;">
+  <div style="background:var(--c-white);padding:var(--sp-12);border-radius:var(--radius-lg);max-width:480px;text-align:center;margin:var(--sp-6);">
+    <div style="width:64px;height:64px;border-radius:50%;background:#e8f5ee;display:flex;align-items:center;justify-content:center;margin:0 auto var(--sp-5);">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#2d7a4f" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <h2 style="font-size:var(--text-2xl);margin-bottom:var(--sp-3);">Order Submitted!</h2>
+    <p style="color:var(--c-muted);margin-bottom:var(--sp-6);">Your order summary has been sent to us. We'll contact you within one business day to confirm your order and arrange payment.</p>
+    <div style="display:flex;flex-direction:column;gap:var(--sp-3);">
+      <a id="success-wa-link" href="https://wa.me/27688169590" class="btn btn--whatsapp btn--full" target="_blank" rel="noopener">Follow Up on WhatsApp</a>
+      <a href="/" class="btn btn--outline btn--full">Back to Home</a>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<script src="/assets/js/kwm.js"></script>
+<script>
+document.getElementById('footer-year') && (document.getElementById('footer-year').textContent = new Date().getFullYear());
+
+const STORAGE_KEY = 'kwm_cart';
+function loadCart() { try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; } catch { return []; } }
+function getTotal(items) { return items.reduce((s,i) => s + i.price*(i.qty||1), 0); }
+
+function renderCheckoutSummary() {
+  const items = loadCart();
+  const itemsEl = document.getElementById('checkout-order-items');
+  const totalsEl = document.getElementById('checkout-totals');
+
+  if (!items.length) {
+    itemsEl.innerHTML = '<p style="font-size:var(--text-sm);color:var(--c-muted);">Your cart is empty. <a href="/shop/" style="color:var(--c-brown);">Browse the shop</a>.</p>';
+    totalsEl.innerHTML = '';
+    return;
+  }
+
+  itemsEl.innerHTML = items.map(item => `
+    <div style="display:flex;gap:var(--sp-3);align-items:center;">
+      <img src="${item.image||'/assets/images/new2.png'}" alt="${item.name}" style="width:52px;height:52px;object-fit:cover;border-radius:var(--radius-sm);background:var(--c-cream);flex-shrink:0;">
+      <div style="flex:1;">
+        <div style="font-size:var(--text-sm);font-weight:600;color:var(--c-ink);">${item.name}</div>
+        ${item.variant ? `<div style="font-size:var(--text-xs);color:var(--c-muted);">${item.variant}</div>` : ''}
+        <div style="font-size:var(--text-xs);color:var(--c-muted);">Qty: ${item.qty}</div>
+      </div>
+      <div style="font-weight:700;font-size:var(--text-sm);">R${(item.price*item.qty).toFixed(2)}</div>
+    </div>`).join('');
+
+  const subtotal = getTotal(items);
+  totalsEl.innerHTML = `
+    <div class="order-line"><span>Subtotal (${items.reduce((s,i)=>s+i.qty,0)} items)</span><span>R${subtotal.toFixed(2)}</span></div>
+    <div class="order-line"><span style="color:var(--c-muted);">Delivery</span><span style="color:var(--c-muted);">TBC</span></div>
+    <div class="order-line grand"><span>Order Total</span><span>R${subtotal.toFixed(2)}</span></div>`;
+}
+
+function selectDelivery(input) {
+  document.querySelectorAll('.delivery-option').forEach(l => l.classList.remove('selected'));
+  input.closest('.delivery-option').classList.add('selected');
+  const addrFields = document.getElementById('delivery-address-fields');
+  if (addrFields) addrFields.style.display = input.value === 'courier' ? '' : 'none';
+}
+
+function placeOrder() {
+  const items = loadCart();
+  if (!items.length) { alert('Your cart is empty.'); return; }
+
+  const fname = document.getElementById('co-fname')?.value.trim();
+  const email = document.getElementById('co-email')?.value.trim();
+  const phone = document.getElementById('co-phone')?.value.trim();
+  if (!fname || !email || !phone) { alert('Please fill in your name, email and phone number.'); return; }
+
+  const delivery = document.querySelector('input[name="delivery"]:checked')?.value || 'courier';
+  const notes = document.getElementById('co-notes')?.value.trim();
+  const subtotal = getTotal(items);
+
+  // Build WhatsApp order message
+  const orderLines = items.map(i => `• ${i.name}${i.variant ? ` (${i.variant})` : ''} x${i.qty} = R${(i.price*i.qty).toFixed(2)}`).join('\n');
+  const msg = `Hi, I've placed an order on your website:\n\n*Order Details:*\n${orderLines}\n\nSubtotal: R${subtotal.toFixed(2)}\nDelivery: ${delivery}\n\n*Customer:*\nName: ${fname}\nPhone: ${phone}\nEmail: ${email}\n${notes ? `\nNotes: ${notes}` : ''}`;
+
+  // Update success WA link
+  document.getElementById('success-wa-link').href = `https://wa.me/27688169590?text=${encodeURIComponent(msg)}`;
+
+  // Track conversion
+  if (typeof gtag !== 'undefined') {
+    gtag('event', 'purchase', { transaction_id: Date.now().toString(), value: subtotal, currency: 'ZAR', items: items.map(i => ({item_name:i.name, quantity:i.qty, price:i.price})) });
+  }
+
+  // Clear cart
+  localStorage.removeItem(STORAGE_KEY);
+  if (typeof KWMCart !== 'undefined') KWMCart.renderCart();
+
+  // Show success
+  const overlay = document.getElementById('order-success');
+  overlay.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+
+renderCheckoutSummary();
+</script>
+</body>
+</html>

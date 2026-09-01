@@ -1,45 +1,185 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+
+  <!-- ============================================
+       KITCHEN WRAP MASTERS — SITEMAP
+       Domain: kitchenwrapmasters.co.za
+       Last updated: 2025-08-29
+       ============================================ -->
+
+  <!-- HOME -->
   <url>
     <loc>https://kitchenwrapmasters.co.za/</loc>
-    <lastmod>2025-01-23</lastmod>
+    <lastmod>2025-08-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://kitchenwrapmasters.co.za/gallery/hero/pic2.jpg</image:loc>
+      <image:title>Kitchen Wrap Masters — Professional Vinyl Wrapping Johannesburg South</image:title>
+    </image:image>
   </url>
+
+  <!-- ABOUT -->
   <url>
-    <loc>https://kitchenwrapmasters.co.za/pages/contact.html</loc>
-    <lastmod>2025-01-23</lastmod>
+    <loc>https://kitchenwrapmasters.co.za/about/</loc>
+    <lastmod>2025-08-29</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
   </url>
-  <url>
-    <loc>https://kitchenwrapmasters.co.za/pages/termsandconditions.html</loc>
-    <lastmod>2025-01-23</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
-  </url>
+
+  <!-- SERVICES HUB -->
   <url>
     <loc>https://kitchenwrapmasters.co.za/services/</loc>
-    <lastmod>2025-01-23</lastmod>
+    <lastmod>2025-08-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
+
+  <!-- INDIVIDUAL SERVICE PAGES -->
   <url>
-    <loc>https://kitchenwrapmasters.co.za/gallery/</loc>
-    <lastmod>2025-01-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
+    <loc>https://kitchenwrapmasters.co.za/services/kitchen-wrapping/</loc>
+    <lastmod>2025-08-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://kitchenwrapmasters.co.za/gallery/before-after/kitchen%20after%20transfomation%203.jpeg</image:loc>
+      <image:title>Kitchen Cabinet Vinyl Wrapping — Johannesburg South</image:title>
+    </image:image>
   </url>
+
   <url>
-    <loc>https://kitchenwrapmasters.co.za/blog/</loc>
-    <lastmod>2025-01-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <loc>https://kitchenwrapmasters.co.za/services/fridge-wrapping/</loc>
+    <lastmod>2025-08-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://kitchenwrapmasters.co.za/gallery/before-after/fridge%20after%20transfomation%201.jpeg</image:loc>
+      <image:title>Fridge Vinyl Wrapping — Johannesburg South</image:title>
+    </image:image>
   </url>
+
   <url>
-    <loc>https://kitchenwrapmasters.co.za/areas/johannesburg-vinyl-wrapping.html</loc>
-    <lastmod>2025-01-23</lastmod>
+    <loc>https://kitchenwrapmasters.co.za/services/furniture-wrapping/</loc>
+    <lastmod>2025-08-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
+
+  <url>
+    <loc>https://kitchenwrapmasters.co.za/services/wallpaper-installation/</loc>
+    <lastmod>2025-08-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://kitchenwrapmasters.co.za/gallery/services/wallpaper1.jpeg</image:loc>
+      <image:title>Professional Wallpaper Installation — Johannesburg South</image:title>
+    </image:image>
+  </url>
+
+  <!-- GALLERY -->
+  <url>
+    <loc>https://kitchenwrapmasters.co.za/gallery/</loc>
+    <lastmod>2025-08-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://kitchenwrapmasters.co.za/gallery/before-after/kitchen%20after%20transfomation%201.jpeg</image:loc>
+      <image:title>Kitchen Wrapping Before and After — Johannesburg</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://kitchenwrapmasters.co.za/gallery/before-after/fridge%20after%20transfomation%201.jpeg</image:loc>
+      <image:title>Fridge Wrapping Before and After — Johannesburg</image:title>
+    </image:image>
+  </url>
+
+  <!-- QUOTE -->
+  <url>
+    <loc>https://kitchenwrapmasters.co.za/quote/</loc>
+    <lastmod>2025-08-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- CONTACT -->
+  <url>
+    <loc>https://kitchenwrapmasters.co.za/contact/</loc>
+    <lastmod>2025-08-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- BLOG LISTING -->
+  <url>
+    <loc>https://kitchenwrapmasters.co.za/blog/</loc>
+    <lastmod>2025-08-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- BLOG ARTICLES -->
+  <url>
+    <loc>https://kitchenwrapmasters.co.za/blog/kitchen-wrapping-vs-replacement/</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://kitchenwrapmasters.co.za/gallery/before-after/kitchen%20after%20transfomation%203.jpeg</image:loc>
+      <image:title>Kitchen Wrapping vs Full Replacement — Kitchen Wrap Masters</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://kitchenwrapmasters.co.za/blog/how-long-does-vinyl-wrapping-last/</loc>
+    <lastmod>2025-02-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://kitchenwrapmasters.co.za/gallery/before-after/kitchen%20after%20transfomation%201.jpeg</image:loc>
+      <image:title>How Long Does Vinyl Wrapping Last — Kitchen Wrap Masters</image:title>
+    </image:image>
+  </url>
+
+  <!-- SHOP -->
+  <url>
+    <loc>https://kitchenwrapmasters.co.za/shop/</loc>
+    <lastmod>2025-08-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://kitchenwrapmasters.co.za/shop/vinyl-sample-pack/</loc>
+    <lastmod>2025-08-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- AREAS -->
+  <url>
+    <loc>https://kitchenwrapmasters.co.za/areas/johannesburg-vinyl-wrapping/</loc>
+    <lastmod>2025-08-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://kitchenwrapmasters.co.za/gallery/before-after/kitchen%20after%20transfomation%203.jpeg</image:loc>
+      <image:title>Vinyl Wrapping Johannesburg South — Kitchen Wrap Masters</image:title>
+    </image:image>
+  </url>
+
+  <!-- LEGAL -->
+  <url>
+    <loc>https://kitchenwrapmasters.co.za/terms-and-conditions/</loc>
+    <lastmod>2025-01-01</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+  <url>
+    <loc>https://kitchenwrapmasters.co.za/privacy-policy/</loc>
+    <lastmod>2025-01-01</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
 </urlset>

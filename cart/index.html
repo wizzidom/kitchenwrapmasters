@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en-ZA">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cart | Kitchen Wrap Masters Shop</title>
+  <meta name="description" content="Your Kitchen Wrap Masters shopping cart. Review your vinyl sample and product order before checkout.">
+  <meta name="robots" content="noindex, follow">
+  <link rel="canonical" href="https://kitchenwrapmasters.co.za/cart/">
+  <link rel="icon" type="image/png" href="/assets/images/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/kwm.css">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FH6YL6B9MZ"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-FH6YL6B9MZ');</script>
+  <style>
+    .cart-page-table { width:100%; border-collapse:collapse; }
+    .cart-page-table th { text-align:left; font-size:var(--text-xs); font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--c-muted); padding:var(--sp-3) var(--sp-4); border-bottom:2px solid var(--c-border); }
+    .cart-page-table td { padding:var(--sp-5) var(--sp-4); border-bottom:1px solid var(--c-border); vertical-align:middle; font-size:var(--text-sm); }
+    .cart-page-row-img { width:72px; height:72px; object-fit:cover; border-radius:var(--radius-sm); background:var(--c-cream); }
+    .cart-empty-state { text-align:center; padding:var(--sp-24) 0; }
+    .cart-empty-state svg { width:64px; height:64px; fill:none; stroke:var(--c-border); stroke-width:1.5; margin:0 auto var(--sp-6); display:block; }
+    @media(max-width:640px){
+      .cart-page-table thead { display:none; }
+      .cart-page-table tr { display:flex; flex-direction:column; padding:var(--sp-5) 0; border-bottom:1px solid var(--c-border); gap:var(--sp-2); }
+      .cart-page-table td { padding:0 var(--sp-2); border:none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<header class="site-header page-header" id="site-header">
+  <nav class="nav" aria-label="Main navigation">
+    <a href="/" class="nav__logo" aria-label="Kitchen Wrap Masters — Home"><img src="/assets/images/new2.png" alt="Kitchen Wrap Masters logo" class="nav__logo-img" width="44" height="44"></a>
+    <ul class="nav__links" role="list"><li><a href="/" class="nav__link">Home</a></li><li><a href="/services/" class="nav__link">Services</a></li><li><a href="/gallery/" class="nav__link">Our Work</a></li><li><a href="/about/" class="nav__link">About</a></li><li><a href="/blog/" class="nav__link">Blog</a></li><li><a href="/shop/" class="nav__link">Shop</a></li></ul>
+    <a href="/cart/" class="nav__link active" style="margin-left:auto;display:flex;align-items:center;" aria-label="Cart"><span class="cart-icon-wrap"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg><span class="cart-count" style="display:none">0</span></span></a>
+    <div class="nav__cta"><a href="/quote/" class="btn btn--primary btn--sm">Get a Quote</a></div>
+    <button class="nav__hamburger" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-menu"><span></span><span></span><span></span></button>
+  </nav>
+  <div class="nav__mobile-menu" id="mobile-menu" role="dialog" aria-label="Mobile navigation">
+    <a href="/" class="nav__mobile-link">Home</a><a href="/services/" class="nav__mobile-link">Services</a><a href="/gallery/" class="nav__mobile-link">Our Work</a><a href="/about/" class="nav__mobile-link">About</a><a href="/blog/" class="nav__mobile-link">Blog</a><a href="/shop/" class="nav__mobile-link">Shop</a><a href="/contact/" class="nav__mobile-link">Contact</a>
+    <div class="nav__mobile-cta"><a href="/quote/" class="btn btn--primary btn--full">Get a Free Quote</a></div>
+  </div>
+</header>
+
+<main id="main-content">
+<section style="padding-top:calc(var(--nav-h) + var(--sp-10));padding-bottom:var(--sp-24);">
+  <div class="container">
+    <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span class="breadcrumb__sep">›</span><a href="/shop/">Shop</a><span class="breadcrumb__sep">›</span><span aria-current="page">Cart</span></nav>
+    <h1 style="margin-top:var(--sp-4);margin-bottom:var(--sp-8);">Your Cart</h1>
+
+    <!-- PAYMENT NOTICE -->
+    <div style="background:var(--c-cream);border:1px dashed var(--c-border);border-radius:var(--radius-md);padding:var(--sp-4) var(--sp-5);font-size:var(--text-sm);color:var(--c-muted);margin-bottom:var(--sp-8);">
+      <strong style="color:var(--c-ink);">⚠ Payment integration note:</strong> Secure payment processing (PayFast or similar SA gateway) will be connected before launch. Cart data persists in your browser. Orders placed currently are sent to us as order summaries for manual processing.
+    </div>
+
+    <div id="cart-page-content">
+      <!-- Populated by JS -->
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="site-footer"><div class="footer-top"><div class="container"><div class="footer-grid">
+  <div class="footer-brand"><a href="/" class="nav__logo"><img src="/assets/images/new2.png" alt="Kitchen Wrap Masters logo" width="40" height="40" class="nav__logo-img"></a><p style="margin-top:var(--sp-4);">Professional vinyl wrapping across Johannesburg South and Gauteng.</p></div>
+  <div class="footer-col"><h4>Shop</h4><ul><li><a href="/shop/">All Products</a></li><li><a href="/shop/vinyl-sample-pack/">Vinyl Samples</a></li><li><a href="/checkout/">Checkout</a></li></ul></div>
+  <div class="footer-col"><h4>Services</h4><ul><li><a href="/services/kitchen-wrapping/">Kitchen Wrapping</a></li><li><a href="/services/fridge-wrapping/">Fridge Wrapping</a></li><li><a href="/quote/">Get a Quote</a></li></ul></div>
+  <div class="footer-col"><h4>Contact</h4><div class="footer-contact-item"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.86 9.79 19.79 19.79 0 01.75 1.13 2 2 0 012.73 1h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L7.09 8.91a16 16 0 006 6l.91-.91a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg><a href="tel:+27688169590">+27 68 816 9590</a></div></div>
+</div></div></div>
+<div class="footer-bottom"><div class="container" style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:var(--sp-3);align-items:center;"><p style="color:inherit;font-size:inherit;">© <span id="footer-year"></span> Kitchen Wrap Masters.</p><div class="footer-legal"><a href="/terms-and-conditions/">Terms</a><a href="/privacy-policy/">Privacy</a></div></div></div></footer>
+
+<a href="https://wa.me/27688169590" class="float-wa" target="_blank" rel="noopener" aria-label="Chat on WhatsApp" data-location="float"><span class="float-wa-pulse" aria-hidden="true"></span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.11 1.522 5.83L.073 23.927a.5.5 0 00.624.624l6.098-1.449A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.951 0-3.779-.54-5.33-1.477l-.383-.228-3.618.859.859-3.618-.228-.383A9.938 9.938 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg></a>
+
+<script>
+document.getElementById('footer-year').textContent = new Date().getFullYear();
+</script>
+<!-- Load kwm.js first so KWMCart is available, then render the full cart page -->
+<script src="/assets/js/kwm.js"></script>
+<script>
+(function renderCartPage() {
+  const container = document.getElementById('cart-page-content');
+  const STORAGE_KEY = 'kwm_cart';
+
+  function load() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+    catch { return []; }
+  }
+  function save(items) { localStorage.setItem(STORAGE_KEY, JSON.stringify(items)); }
+
+  function getTotal(items) {
+    return items.reduce((s, i) => s + i.price * (i.qty || 1), 0);
+  }
+
+  function render() {
+    const items = load();
+    if (!items.length) {
+      container.innerHTML = `
+        <div class="cart-empty-state">
+          <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          <h2 style="font-size:var(--text-2xl);margin-bottom:var(--sp-3);">Your cart is empty.</h2>
+          <p style="color:var(--c-muted);margin-bottom:var(--sp-6);">Browse our vinyl samples and accessories.</p>
+          <a href="/shop/" class="btn btn--primary btn--lg">Browse the Shop</a>
+        </div>`;
+      return;
+    }
+
+    const subtotal = getTotal(items);
+
+    container.innerHTML = `
+      <div style="display:grid;grid-template-columns:1fr 360px;gap:var(--sp-10);align-items:start;">
+        <div>
+          <table class="cart-page-table" role="table">
+            <thead><tr><th scope="col">Product</th><th scope="col">Variant</th><th scope="col">Price</th><th scope="col">Qty</th><th scope="col">Total</th><th scope="col"><span class="sr-only">Remove</span></th></tr></thead>
+            <tbody id="cart-table-body">${items.map(item => {
+              const key = `${item.id}__${item.variant || ''}`;
+              return `<tr>
+                <td><div style="display:flex;align-items:center;gap:var(--sp-4);">
+                  <img class="cart-page-row-img" src="${item.image || '/assets/images/new2.png'}" alt="${item.name}" loading="lazy">
+                  <div><strong style="display:block;font-size:var(--text-sm);color:var(--c-ink);">${item.name}</strong></div>
+                </div></td>
+                <td style="color:var(--c-muted);">${item.variant || '—'}</td>
+                <td>R${parseFloat(item.price).toFixed(2)}</td>
+                <td>
+                  <div style="display:flex;align-items:center;gap:var(--sp-2);">
+                    <button class="qty-btn" onclick="pageUpdateQty('${key}',-1)" aria-label="Decrease">−</button>
+                    <span style="min-width:24px;text-align:center;font-weight:600;">${item.qty}</span>
+                    <button class="qty-btn" onclick="pageUpdateQty('${key}',1)" aria-label="Increase">+</button>
+                  </div>
+                </td>
+                <td><strong>R${(item.price * item.qty).toFixed(2)}</strong></td>
+                <td><button onclick="pageRemove('${key}')" style="background:none;border:none;cursor:pointer;color:var(--c-muted);font-size:var(--text-xs);padding:var(--sp-1);" aria-label="Remove ${item.name}">Remove</button></td>
+              </tr>`;
+            }).join('')}</tbody>
+          </table>
+          <div style="margin-top:var(--sp-6);display:flex;gap:var(--sp-4);align-items:center;flex-wrap:wrap;">
+            <a href="/shop/" class="btn btn--outline btn--sm">← Continue Shopping</a>
+            <button onclick="clearCart()" style="background:none;border:none;cursor:pointer;font-size:var(--text-sm);color:var(--c-muted);text-decoration:underline;">Clear cart</button>
+          </div>
+        </div>
+
+        <!-- Order summary -->
+        <div style="background:var(--c-ivory);border:1px solid var(--c-border);padding:var(--sp-6);">
+          <h3 style="font-size:var(--text-xl);margin-bottom:var(--sp-5);">Order Summary</h3>
+          <div style="display:flex;flex-direction:column;gap:var(--sp-3);margin-bottom:var(--sp-5);">
+            <div style="display:flex;justify-content:space-between;font-size:var(--text-sm);"><span>Subtotal</span><span>R${subtotal.toFixed(2)}</span></div>
+            <div style="display:flex;justify-content:space-between;font-size:var(--text-sm);color:var(--c-muted);"><span>Delivery</span><span>Calculated at checkout</span></div>
+            <div style="display:flex;justify-content:space-between;font-weight:700;font-size:var(--text-base);border-top:1px solid var(--c-border);padding-top:var(--sp-3);"><span>Total</span><span>R${subtotal.toFixed(2)}</span></div>
+          </div>
+          <a href="/checkout/" class="btn btn--primary btn--full btn--lg">Proceed to Checkout</a>
+          <div style="margin-top:var(--sp-4);text-align:center;font-size:var(--text-xs);color:var(--c-muted);">Secure checkout — payment gateway coming soon</div>
+          <div style="margin-top:var(--sp-6);padding-top:var(--sp-5);border-top:1px solid var(--c-border);">
+            <p style="font-size:var(--text-sm);font-weight:600;margin-bottom:var(--sp-3);">Or order via WhatsApp:</p>
+            <a href="https://wa.me/27688169590?text=${encodeURIComponent('Hi, I\'d like to order:\n' + items.map(i => `- ${i.name} (${i.variant||''}) x${i.qty} = R${(i.price*i.qty).toFixed(2)}`).join('\n') + `\n\nTotal: R${subtotal.toFixed(2)}`)}" class="btn btn--whatsapp btn--full btn--sm" target="_blank" rel="noopener" data-location="cart-whatsapp">Send Order on WhatsApp</a>
+          </div>
+        </div>
+      </div>`;
+  }
+
+  window.pageUpdateQty = function(key, delta) {
+    let items = load();
+    const item = items.find(i => `${i.id}__${i.variant||''}` === key);
+    if (item) { item.qty = Math.max(1, (item.qty||1) + delta); save(items); }
+    if (typeof KWMCart !== 'undefined') KWMCart.renderCart();
+    render();
+  };
+  window.pageRemove = function(key) {
+    let items = load().filter(i => `${i.id}__${i.variant||''}` !== key);
+    save(items);
+    if (typeof KWMCart !== 'undefined') KWMCart.renderCart();
+    render();
+  };
+  window.clearCart = function() {
+    if (confirm('Remove all items from your cart?')) {
+      save([]);
+      if (typeof KWMCart !== 'undefined') KWMCart.renderCart();
+      render();
+    }
+  };
+
+  render();
+})();
+</script>
+</body>
+</html>
