@@ -7,6 +7,23 @@
 'use strict';
 
 /* =====================================================
+   UTILITIES
+   ===================================================== */
+
+/**
+ * Escape a string for safe insertion into HTML contexts.
+ * Prevents stored XSS when rendering data from localStorage.
+ */
+function escHtml(str) {
+  return String(str ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+/* =====================================================
    ANALYTICS HELPERS
    ===================================================== */
 function trackEvent(eventName, params = {}) {
@@ -385,15 +402,15 @@ const KWMCart = (function () {
         const key = `${item.id}__${item.variant || ''}`;
         return `
           <div class="cart-item">
-            <img class="cart-item__img" src="${item.image || '/assets/images/logo.png'}" alt="${item.name}" loading="lazy">
+            <img class="cart-item__img" src="${escHtml(item.image || '/assets/images/new2.png')}" alt="${escHtml(item.name)}" loading="lazy">
             <div class="cart-item__info">
-              <div class="cart-item__name">${item.name}</div>
-              ${item.variant ? `<div class="cart-item__variant">${item.variant}</div>` : ''}
+              <div class="cart-item__name">${escHtml(item.name)}</div>
+              ${item.variant ? `<div class="cart-item__variant">${escHtml(item.variant)}</div>` : ''}
               <div class="cart-item__controls">
-                <button class="qty-btn" onclick="KWMCart.updateQty('${key}', -1)" aria-label="Decrease quantity">−</button>
-                <span class="qty-val">${item.qty}</span>
-                <button class="qty-btn" onclick="KWMCart.updateQty('${key}', 1)" aria-label="Increase quantity">+</button>
-                <button class="cart-item__remove" onclick="KWMCart.removeItem('${key}')">Remove</button>
+                <button class="qty-btn" onclick="KWMCart.updateQty('${escHtml(key)}', -1)" aria-label="Decrease quantity for ${escHtml(item.name)}">−</button>
+                <span class="qty-val">${escHtml(String(item.qty))}</span>
+                <button class="qty-btn" onclick="KWMCart.updateQty('${escHtml(key)}', 1)" aria-label="Increase quantity for ${escHtml(item.name)}">+</button>
+                <button class="cart-item__remove" onclick="KWMCart.removeItem('${escHtml(key)}')">Remove</button>
               </div>
             </div>
             <div class="cart-item__price">R${(item.price * item.qty).toFixed(2)}</div>
@@ -443,6 +460,80 @@ const KWMCart = (function () {
 
 // Expose globally
 window.KWMCart = KWMCart;
+
+/* =====================================================
+   ECOMMERCE — VINYL COLOUR SWATCHES
+   ===================================================== */
+const VINYL_SWATCHES = [
+  ['6000-white', '6000 White'],
+  ['6001-black', '6001 Black'],
+  ['6010-light-yellow', '6010 Light Yellow'],
+  ['6011-medium-light-yellow', '6011 Medium Light Yellow'],
+  ['6015-bright-yellow', '6015 Bright Yellow'],
+  ['6014-dark-yellow', '6014 Dark Yellow'],
+  ['6018-orange', '6018 Orange'],
+  ['6019-orange-red', '6019 Orange Red'],
+  ['6021-cherry-red', '6021 Cherry Red'],
+  ['6023-fire-red', '6023 Fire Red'],
+  ['6025-tomato-red', '6025 Tomato Red'],
+  ['6022-medium-red', '6022 Medium Red'],
+  ['6026-dark-red', '6026 Dark Red'],
+  ['6028-burgundy', '6028 Burgundy'],
+  ['6004-pink', '6004 Pink'],
+  ['6006-violet', '6006 Violet'],
+  ['6031-light-blue', '6031 Light Blue'],
+  ['6032-sky-blue', '6032 Sky Blue'],
+  ['6035-olympic-blue', '6035 Olympic Blue'],
+  ['6033-blue', '6033 Blue'],
+  ['6036-medium-blue', '6036 Medium Blue'],
+  ['6037-traffic-blue', '6037 Traffic Blue'],
+  ['6030-vivid-blue', '6030 Vivid Blue'],
+  ['6034-ultramarine', '6034 Ultramarine'],
+  ['6039-aqua-green', '6039 Aqua Green'],
+  ['6038-turquoise', '6038 Turquoise'],
+  ['6044-light-green', '6044 Light Green'],
+  ['6040-apple-green', '6040 Apple Green'],
+  ['6045-bright-green', '6045 Bright Green'],
+  ['6041-green', '6041 Green'],
+  ['6042-forest-green', '6042 Forest Green'],
+  ['6007-brown', '6007 Brown'],
+  ['6052-grey-white', '6052 Grey White'],
+  ['6051-grey', '6051 Grey'],
+  ['6050-dark-grey', '6050 Dark Grey'],
+  ['6003-beige', '6003 Beige'],
+  ['6002-gold', '6002 Gold'],
+  ['6008-silver', '6008 Silver']
+];
+
+document.querySelectorAll('.colour-swatches').forEach(container => {
+  container.innerHTML = VINYL_SWATCHES.map(([slug, label]) => `
+    <button class="colour-swatch swatch--vinyl-${slug}" data-colour="${label}" onclick="selectColour(this)" aria-label="${label}" aria-pressed="false" type="button">
+      <span class="colour-swatch__tooltip">${label}</span>
+    </button>`).join('');
+});
+
+/* Keep essential product details close to the image on product pages. */
+(function initProductImageDetails() {
+  document.querySelectorAll('.diy-product-hero, .product-hero').forEach(hero => {
+    const imageColumn = hero.firstElementChild;
+    const detailSection = hero.closest('main')?.querySelector('section.bg-ivory');
+    const detailGrid = detailSection?.querySelector('.grid-2');
+    if (!imageColumn || !detailGrid) return;
+
+    const detailCards = [...detailGrid.children].filter(card => {
+      const heading = card.querySelector('h2, h3')?.textContent.toLowerCase() || '';
+      return heading.includes('box') || heading.includes('delivery') || heading.includes('what you get');
+    });
+    if (!detailCards.length) return;
+
+    const imageDetails = document.createElement('div');
+    imageDetails.className = 'product-image-details';
+    imageDetails.append(...detailCards);
+    imageColumn.append(imageDetails);
+
+    if (!detailGrid.children.length) detailSection.hidden = true;
+  });
+})();
 
 /* =====================================================
    TRACKING — WhatsApp / Phone clicks

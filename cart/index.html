@@ -21,6 +21,8 @@
     .cart-page-row-img { width:72px; height:72px; object-fit:cover; border-radius:var(--radius-sm); background:var(--c-cream); }
     .cart-empty-state { text-align:center; padding:var(--sp-24) 0; }
     .cart-empty-state svg { width:64px; height:64px; fill:none; stroke:var(--c-border); stroke-width:1.5; margin:0 auto var(--sp-6); display:block; }
+    .cart-page-layout { display:grid; grid-template-columns:1fr 360px; gap:var(--sp-10); align-items:start; }
+    @media(max-width:900px){ .cart-page-layout { grid-template-columns:1fr; } }
     @media(max-width:640px){
       .cart-page-table thead { display:none; }
       .cart-page-table tr { display:flex; flex-direction:column; padding:var(--sp-5) 0; border-bottom:1px solid var(--c-border); gap:var(--sp-2); }
@@ -34,13 +36,13 @@
 <header class="site-header page-header" id="site-header">
   <nav class="nav" aria-label="Main navigation">
     <a href="/" class="nav__logo" aria-label="Kitchen Wrap Masters — Home"><img src="/assets/images/new2.png" alt="Kitchen Wrap Masters logo" class="nav__logo-img" width="44" height="44"></a>
-    <ul class="nav__links" role="list"><li><a href="/" class="nav__link">Home</a></li><li><a href="/services/" class="nav__link">Services</a></li><li><a href="/gallery/" class="nav__link">Our Work</a></li><li><a href="/about/" class="nav__link">About</a></li><li><a href="/blog/" class="nav__link">Blog</a></li><!-- SHOP NAV HIDDEN UNTIL PAYFAST VERIFIED <li><a href="/shop/" class="nav__link">Shop</a></li> --></ul>
+    <ul class="nav__links" role="list"><li><a href="/" class="nav__link">Home</a></li><li><a href="/services/" class="nav__link">Services</a></li><li><a href="/gallery/" class="nav__link">Our Work</a></li><li><a href="/about/" class="nav__link">About</a></li><li><a href="/blog/" class="nav__link">Blog</a></li><li><a href="/shop/" class="nav__link">Shop</a></li></ul>
     <a href="/cart/" class="nav__link active" style="margin-left:auto;display:flex;align-items:center;" aria-label="Cart"><span class="cart-icon-wrap"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg><span class="cart-count" style="display:none">0</span></span></a>
     <div class="nav__cta"><a href="/quote/" class="btn btn--primary btn--sm">Get a Quote</a></div>
     <button class="nav__hamburger" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-menu"><span></span><span></span><span></span></button>
   </nav>
   <div class="nav__mobile-menu" id="mobile-menu" role="dialog" aria-label="Mobile navigation">
-    <a href="/" class="nav__mobile-link">Home</a><a href="/services/" class="nav__mobile-link">Services</a><a href="/gallery/" class="nav__mobile-link">Our Work</a><a href="/about/" class="nav__mobile-link">About</a><a href="/blog/" class="nav__mobile-link">Blog</a><!-- SHOP NAV HIDDEN UNTIL PAYFAST VERIFIED <a href="/shop/" class="nav__mobile-link">Shop</a> --><a href="/contact/" class="nav__mobile-link">Contact</a>
+    <a href="/" class="nav__mobile-link">Home</a><a href="/services/" class="nav__mobile-link">Services</a><a href="/gallery/" class="nav__mobile-link">Our Work</a><a href="/about/" class="nav__mobile-link">About</a><a href="/blog/" class="nav__mobile-link">Blog</a><a href="/shop/" class="nav__mobile-link">Shop</a><a href="/contact/" class="nav__mobile-link">Contact</a>
     <div class="nav__mobile-cta"><a href="/quote/" class="btn btn--primary btn--full">Get a Free Quote</a></div>
   </div>
 </header>
@@ -56,9 +58,7 @@
       <strong style="color:var(--c-ink);">⚠ Payment integration note:</strong> Secure payment processing (PayFast or similar SA gateway) will be connected before launch. Cart data persists in your browser. Orders placed currently are sent to us as order summaries for manual processing.
     </div> -->
 
-    <!-- <div id="cart-page-content">
-     
-    </div> -->
+    <div id="cart-page-content"></div>
   </div>
 </section>
 </main>
@@ -82,6 +82,15 @@ document.getElementById('footer-year').textContent = new Date().getFullYear();
 (function renderCartPage() {
   const container = document.getElementById('cart-page-content');
   const STORAGE_KEY = 'kwm_cart';
+
+  function escHtml(str) {
+    return String(str ?? '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
 
   function load() {
     try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
@@ -109,7 +118,7 @@ document.getElementById('footer-year').textContent = new Date().getFullYear();
     const subtotal = getTotal(items);
 
     container.innerHTML = `
-      <div style="display:grid;grid-template-columns:1fr 360px;gap:var(--sp-10);align-items:start;">
+      <div class="cart-page-layout">
         <div>
           <table class="cart-page-table" role="table">
             <thead><tr><th scope="col">Product</th><th scope="col">Variant</th><th scope="col">Price</th><th scope="col">Qty</th><th scope="col">Total</th><th scope="col"><span class="sr-only">Remove</span></th></tr></thead>
@@ -117,20 +126,20 @@ document.getElementById('footer-year').textContent = new Date().getFullYear();
               const key = `${item.id}__${item.variant || ''}`;
               return `<tr>
                 <td><div style="display:flex;align-items:center;gap:var(--sp-4);">
-                  <img class="cart-page-row-img" src="${item.image || '/assets/images/new2.png'}" alt="${item.name}" loading="lazy">
-                  <div><strong style="display:block;font-size:var(--text-sm);color:var(--c-ink);">${item.name}</strong></div>
+                  <img class="cart-page-row-img" src="${escHtml(item.image || '/assets/images/new2.png')}" alt="${escHtml(item.name)}" loading="lazy">
+                  <div><strong style="display:block;font-size:var(--text-sm);color:var(--c-ink);">${escHtml(item.name)}</strong></div>
                 </div></td>
-                <td style="color:var(--c-muted);">${item.variant || '—'}</td>
+                <td style="color:var(--c-muted);">${escHtml(item.variant || '—')}</td>
                 <td>R${parseFloat(item.price).toFixed(2)}</td>
                 <td>
                   <div style="display:flex;align-items:center;gap:var(--sp-2);">
-                    <button class="qty-btn" onclick="pageUpdateQty('${key}',-1)" aria-label="Decrease">−</button>
+                    <button class="qty-btn" onclick="pageUpdateQty('${escHtml(key)}',-1)" aria-label="Decrease quantity for ${escHtml(item.name)}">−</button>
                     <span style="min-width:24px;text-align:center;font-weight:600;">${item.qty}</span>
-                    <button class="qty-btn" onclick="pageUpdateQty('${key}',1)" aria-label="Increase">+</button>
+                    <button class="qty-btn" onclick="pageUpdateQty('${escHtml(key)}',1)" aria-label="Increase quantity for ${escHtml(item.name)}">+</button>
                   </div>
                 </td>
                 <td><strong>R${(item.price * item.qty).toFixed(2)}</strong></td>
-                <td><button onclick="pageRemove('${key}')" style="background:none;border:none;cursor:pointer;color:var(--c-muted);font-size:var(--text-xs);padding:var(--sp-1);" aria-label="Remove ${item.name}">Remove</button></td>
+                <td><button onclick="pageRemove('${escHtml(key)}')" style="background:none;border:none;cursor:pointer;color:var(--c-muted);font-size:var(--text-xs);padding:var(--sp-1);" aria-label="Remove ${escHtml(item.name)}">Remove</button></td>
               </tr>`;
             }).join('')}</tbody>
           </table>

@@ -19,7 +19,7 @@
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-FH6YL6B9MZ');</script>
   <style>
     /* Shop-specific layout */
-    .shop-filter { display:flex; flex-wrap:wrap; gap:var(--sp-3); margin-bottom:var(--sp-8); align-items:center; }
+    .shop-filter { display:flex; flex-wrap:wrap; gap:var(--sp-3); margin-bottom:var(--sp-6); align-items:center; }
     .shop-sort { margin-left:auto; }
     .shop-sort select { padding:var(--sp-2) var(--sp-4); border:1.5px solid var(--c-border); border-radius:var(--radius-sm); font-size:var(--text-sm); background:var(--c-white); color:var(--c-ink); cursor:pointer; }
     .shop-search { position:relative; flex:1; min-width:200px; max-width:320px; }
@@ -27,11 +27,38 @@
     .shop-search input:focus { outline:none; border-color:var(--c-brown); }
     .shop-search-icon { position:absolute; left:var(--sp-3); top:50%; transform:translateY(-50%); pointer-events:none; }
     .shop-search-icon svg { width:16px; height:16px; fill:none; stroke:var(--c-muted); stroke-width:2; }
-    .products-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:var(--sp-6); }
-    .shop-empty { display:none; text-align:center; padding:var(--sp-16) 0; color:var(--c-muted); }
+    .shop-filter .gallery-filter__btn,
+    .products-grid .btn,
+    .shop-intro-split .btn { min-height:44px; white-space:normal; text-align:center; }
+    .products-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:var(--sp-5); }
+    .products-grid .product-card__img-wrap { width:100%; aspect-ratio:4 / 3; }
+    @media(max-width:640px){
+      .shop-filter { align-items:stretch; }
+      .shop-search { flex:1 1 100%; min-width:0; max-width:none; }
+      .shop-sort { flex:1 1 100%; margin-left:0; }
+      .shop-sort select { width:100%; }
+      .products-grid { grid-template-columns:minmax(0,1fr); }
+      #diy-fridge-kits.section,
+      #vinyl-materials.section,
+      #samples-accessories.section { padding-block:var(--sp-6) var(--sp-8); }
+      a[data-location="shop-page-gauteng-cta"] {
+        flex:1 1 100%;
+        width:100%;
+        flex-shrink:1 !important;
+        white-space:normal;
+        text-align:center;
+        justify-content:center;
+      }
+    }
+    .shop-empty { display:none; text-align:center; padding:var(--sp-12) 0; color:var(--c-muted); }
     .shop-empty.visible { display:block; }
-    .payment-notice { background:var(--c-cream); border:1px dashed var(--c-border); border-radius:var(--radius-md); padding:var(--sp-5) var(--sp-6); font-size:var(--text-sm); color:var(--c-muted); margin-bottom:var(--sp-8); }
+    .payment-notice { background:var(--c-cream); border:1px dashed var(--c-border); border-radius:var(--radius-md); padding:var(--sp-4) var(--sp-5); font-size:var(--text-sm); color:var(--c-muted); margin-bottom:var(--sp-6); }
     .payment-notice strong { color:var(--c-ink); }
+    .shop-category-header { margin-bottom:var(--sp-6); }
+    .shop-category-divider { margin:var(--sp-8) 0 var(--sp-6); }
+    #diy-fridge-kits.section,
+    #vinyl-materials.section,
+    #samples-accessories.section { padding-block:var(--sp-8) var(--sp-10); }
 
     /* DIY vs Pro intro split */
     .shop-intro-split { display:grid; grid-template-columns:1fr 1fr; gap:0; border:1.5px solid var(--c-border); border-radius:var(--radius-lg); overflow:hidden; margin-bottom:var(--sp-16); }
@@ -63,7 +90,7 @@
       <li><a href="/gallery/" class="nav__link">Our Work</a></li>
       <li><a href="/about/" class="nav__link">About</a></li>
       <li><a href="/blog/" class="nav__link">Blog</a></li>
-      <!-- SHOP NAV HIDDEN UNTIL PAYFAST VERIFIED <li><a href="/shop/" class="nav__link">Shop</a></li> -->
+      <li><a href="/shop/" class="nav__link">Shop</a></li>
     </ul>
     <a href="/cart/" class="nav__link" style="margin-left:auto;display:flex;align-items:center;" aria-label="Shopping cart">
       <span class="cart-icon-wrap">
@@ -80,7 +107,7 @@
     <a href="/gallery/" class="nav__mobile-link">Our Work</a>
     <a href="/about/" class="nav__mobile-link">About</a>
     <a href="/blog/" class="nav__mobile-link">Blog</a>
-    <!-- SHOP NAV HIDDEN UNTIL PAYFAST VERIFIED <a href="/shop/" class="nav__mobile-link">Shop</a> -->
+    <a href="/shop/" class="nav__mobile-link">Shop</a>
     <a href="/contact/" class="nav__mobile-link">Contact</a>
     <div class="nav__mobile-cta">
       <a href="/quote/" class="btn btn--primary btn--full">Get a Free Quote</a>
@@ -145,15 +172,6 @@
     </div>
   </section>
 
-  <!-- PAYMENT NOTICE -->
-  <div style="padding-bottom:var(--sp-4);">
-    <div class="container">
-      <div class="payment-notice">
-        <strong>⚠ Payment integration note:</strong> This shop's browsing, cart and checkout UI are fully functional (localStorage cart). Secure payment processing via PayFast will be connected before the shop goes live. Orders placed currently generate a summary sent via WhatsApp for manual processing. <a href="/contact/" style="color:var(--c-brown);font-weight:600;">Contact us</a> to discuss orders directly.
-      </div>
-    </div>
-  </div>
-
   <!-- SEARCH + FILTER BAR -->
   <section style="padding-bottom:var(--sp-4);">
     <div class="container">
@@ -198,9 +216,10 @@
         <!-- DIY DOUBLE-DOOR FRIDGE BUNDLE -->
         <article class="product-card" data-category="diy-kit" data-price="0" role="listitem">
           <div class="product-card__img-wrap">
-            <img src="/assets/images/1000057396.webp"
+            <img src="/assets/images/double doorr.png"
                  alt="DIY Double-Door Fridge Bundle — top-bottom fridge vinyl wrap kit"
-                 loading="lazy" width="400" height="400"
+                 loading="lazy" width="400" height="300"
+                 style="width:100%;height:100%;object-fit:cover;"
                  onerror="this.src='/assets/images/new2.png'">
             <span class="product-card__badge product-card__badge--diy">DIY KIT</span>
           </div>
@@ -220,9 +239,10 @@
         <!-- DIY SIDE-BY-SIDE FRIDGE BUNDLE -->
         <article class="product-card" data-category="diy-kit" data-price="0" role="listitem">
           <div class="product-card__img-wrap">
-            <img src="/assets/images/1000057396.webp"
+            <img src="/assets/images/side-by-side.png"
                  alt="DIY Side-by-Side Fridge Bundle — two vertical doors vinyl wrap kit"
-                 loading="lazy" width="400" height="400"
+                 loading="lazy" width="400" height="300"
+                 style="width:100%;height:100%;object-fit:cover;"
                  onerror="this.src='/assets/images/new2.png'">
             <span class="product-card__badge product-card__badge--diy">DIY KIT</span>
           </div>
@@ -241,15 +261,16 @@
         <!-- DIY FREEZER BUNDLE -->
         <article class="product-card" data-category="diy-kit" data-price="0" role="listitem">
           <div class="product-card__img-wrap">
-            <img src="/assets/images/1000057396.webp"
+            <img src="/assets/images/chest-freezer.png"
                  alt="DIY Freezer Bundle — standalone freezer vinyl wrap kit"
-                 loading="lazy" width="400" height="400"
+                 loading="lazy" width="400" height="300"
+                 style="width:100%;height:100%;object-fit:cover;"
                  onerror="this.src='/assets/images/new2.png'">
             <span class="product-card__badge product-card__badge--diy">DIY KIT</span>
           </div>
           <div class="product-card__body">
             <p class="product-card__category">DIY Fridge Kits</p>
-            <span class="product-card__vinyl-size">8m × 1.22m vinyl</span>
+            <span class="product-card__vinyl-size">6m × 1.22m vinyl</span>
             <h3 class="product-card__name">DIY Freezer Bundle</h3>
             <p class="product-card__desc">For standalone freezers — upright or chest. Includes vinyl, squeegee and cutting blade. Choose your colour.</p>
             <div class="product-card__footer">
@@ -300,15 +321,16 @@
         <!-- 5M VINYL BUNDLE -->
         <article class="product-card" data-category="materials" data-price="0" role="listitem">
           <div class="product-card__img-wrap">
-            <img src="/assets/images/new2.png"
+            <img src="/assets/images/roll.png"
                  alt="5m vinyl bundle — 5m × 1.22m vinyl material"
-                 loading="lazy" width="400" height="400">
+                 style="width:100%;height:100%;object-fit:cover;"
+                 loading="lazy" width="400" height="300">
             <!-- OWNER: Replace with photo of vinyl roll / material -->
           </div>
           <div class="product-card__body">
             <p class="product-card__category">Vinyl &amp; Materials</p>
             <span class="product-card__vinyl-size">5m × 1.22m</span>
-            <h3 class="product-card__name">5m Vinyl Bundle</h3>
+            <h3 class="product-card__name">5m Vinyl Roll</h3>
             <p class="product-card__desc">5m × 1.22m vinyl in your chosen colour or finish. Material only — no tools included.</p>
             <div class="product-card__footer">
               <div class="product-card__price" style="font-size:var(--text-base);color:var(--c-muted);">Price TBC</div>
@@ -320,9 +342,10 @@
         <!-- 50M VINYL ROLL -->
         <article class="product-card" data-category="materials" data-price="0" role="listitem">
           <div class="product-card__img-wrap">
-            <img src="/assets/images/new2.png"
+            <img src="/assets/images/ROLL.png"
                  alt="50m vinyl roll — 50m × 1.22m vinyl material"
-                 loading="lazy" width="400" height="400">
+                 style="width:100%;height:100%;object-fit:cover;"
+                 loading="lazy" width="400" height="300">
             <!-- OWNER: Replace with photo of vinyl roll -->
           </div>
           <div class="product-card__body">
@@ -358,60 +381,14 @@
 
       <div class="products-grid" id="products-grid-samples">
 
-        <!-- SINGLE SAMPLE -->
-        <article class="product-card" data-category="samples" data-price="3500" role="listitem">
-          <div class="product-card__img-wrap">
-            <img src="/assets/images/new2.png" alt="Single vinyl colour sample — Kitchen Wrap Masters" loading="lazy" width="400" height="400">
-            <span class="product-card__badge product-card__badge--sample">Sample</span>
-          </div>
-          <div class="product-card__body">
-            <p class="product-card__category">Vinyl Samples</p>
-            <h3 class="product-card__name">Single Vinyl Colour Sample</h3>
-            <p class="product-card__desc">Order a single colour/finish sample. Approx. 10×15cm — see exactly how it looks in your home.</p>
-            <div class="product-card__footer">
-              <div class="product-card__price"><span class="currency">R</span>35.00</div>
-              <a href="/shop/vinyl-sample-pack/" class="btn btn--primary btn--sm">View &amp; Order</a>
-            </div>
-          </div>
-        </article>
+  
 
-        <!-- SAMPLE PACK 5 -->
-        <article class="product-card" data-category="samples" data-price="14900" role="listitem">
-          <div class="product-card__img-wrap">
-            <img src="/assets/images/new2.png" alt="Vinyl sample pack of 5 — choose your colours" loading="lazy" width="400" height="400">
-            <span class="product-card__badge product-card__badge--new">Popular</span>
-          </div>
-          <div class="product-card__body">
-            <p class="product-card__category">Vinyl Samples</p>
-            <h3 class="product-card__name">Sample Pack — 5 Colours</h3>
-            <p class="product-card__desc">Choose any 5 colours or finishes from our range. See how multiple options look together in your space.</p>
-            <div class="product-card__footer">
-              <div class="product-card__price"><span class="currency">R</span>149.00</div>
-              <a href="/shop/vinyl-sample-pack/" class="btn btn--primary btn--sm">View &amp; Order</a>
-            </div>
-          </div>
-        </article>
-
-        <!-- SAMPLE PACK 10 -->
-        <article class="product-card" data-category="samples" data-price="24900" role="listitem">
-          <div class="product-card__img-wrap">
-            <img src="/assets/images/new2.png" alt="Vinyl sample pack of 10 — comprehensive colour selection" loading="lazy" width="400" height="400">
-          </div>
-          <div class="product-card__body">
-            <p class="product-card__category">Vinyl Samples</p>
-            <h3 class="product-card__name">Sample Pack — 10 Colours</h3>
-            <p class="product-card__desc">Our comprehensive sample pack. Choose 10 colours or finishes to explore the full range of possibilities.</p>
-            <div class="product-card__footer">
-              <div class="product-card__price"><span class="currency">R</span>249.00</div>
-              <a href="/shop/vinyl-sample-pack/" class="btn btn--primary btn--sm">View &amp; Order</a>
-            </div>
-          </div>
-        </article>
+  
 
         <!-- SQUEEGEE -->
         <article class="product-card" data-category="accessories" data-price="8900" role="listitem">
           <div class="product-card__img-wrap">
-            <img src="/assets/images/new2.png" alt="Professional vinyl application squeegee tool" loading="lazy" width="400" height="400">
+            <img src="/assets/images/squ.jpg" alt="Professional vinyl application squeegee tool" loading="lazy" width="400" height="400" style="width:100%;height:100%;object-fit:cover;">
           </div>
           <div class="product-card__body">
             <p class="product-card__category">Accessories</p>
@@ -419,7 +396,9 @@
             <p class="product-card__desc">Hard felt squeegee for smooth, bubble-free vinyl application. Used by our own installation team.</p>
             <div class="product-card__footer">
               <div class="product-card__price"><span class="currency">R</span>89.00</div>
-              <a href="/shop/vinyl-sample-pack/" class="btn btn--primary btn--sm">View &amp; Order</a>
+              <button class="btn btn--primary btn--sm"
+                onclick="KWMCart.addItem({id:'professional-application-squeegee',name:'Professional Application Squeegee',price:89,qty:1,image:'/assets/images/squ.jpg'})"
+                type="button">Add to Cart</button>
             </div>
           </div>
         </article>
@@ -427,7 +406,7 @@
         <!-- CUTTING TOOL -->
         <article class="product-card" data-category="accessories" data-price="12900" role="listitem">
           <div class="product-card__img-wrap">
-            <img src="/assets/images/new2.png" alt="Precision vinyl cutting tool for clean edges" loading="lazy" width="400" height="400">
+            <img src="/assets/images/blade.avif" alt="Precision vinyl cutting tool for clean edges" loading="lazy" width="400" height="400" style="width:100%;height:100%;object-fit:cover;">
           </div>
           <div class="product-card__body">
             <p class="product-card__category">Accessories</p>
@@ -435,7 +414,9 @@
             <p class="product-card__desc">Professional-grade cutting tool for clean, precise vinyl edge cuts and trimming.</p>
             <div class="product-card__footer">
               <div class="product-card__price"><span class="currency">R</span>129.00</div>
-              <a href="/shop/vinyl-sample-pack/" class="btn btn--primary btn--sm">View &amp; Order</a>
+              <button class="btn btn--primary btn--sm"
+                onclick="KWMCart.addItem({id:'precision-vinyl-cutting-tool',name:'Precision Vinyl Cutting Tool',price:129,qty:1,image:'/assets/images/blade.avif'})"
+                type="button">Add to Cart</button>
             </div>
           </div>
         </article>
@@ -457,7 +438,7 @@
       <strong>⚙ Owner action required before launch:</strong> Set <code>BASE_PRICE</code> and <code>VIDEO_PRICE</code> on each product page. Replace placeholder product images. Confirm all prices. Set up PayFast payment gateway. Remove this notice.
     </div>
   </div>
-  <script>if(location.hostname!=='localhost'&&location.hostname!=='127.0.0.1')document.getElementById('owner-note').style.display='none';</script>
+  <script>document.getElementById('owner-note').style.display='none';</script>
 
 </main>
 

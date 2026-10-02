@@ -44,7 +44,7 @@
       <li><a href="/gallery/" class="nav__link">Our Work</a></li>
       <li><a href="/about/" class="nav__link">About</a></li>
       <li><a href="/blog/" class="nav__link">Blog</a></li>
-      <!-- SHOP NAV HIDDEN UNTIL PAYFAST VERIFIED <li><a href="/shop/" class="nav__link">Shop</a></li> -->
+      <li><a href="/shop/" class="nav__link">Shop</a></li>
     </ul>
     <a href="/cart/" class="nav__link" style="margin-left:auto;display:flex;align-items:center;" aria-label="Shopping cart">
       <span class="cart-icon-wrap">
@@ -61,7 +61,7 @@
     <a href="/gallery/" class="nav__mobile-link">Our Work</a>
     <a href="/about/" class="nav__mobile-link">About</a>
     <a href="/blog/" class="nav__mobile-link">Blog</a>
-    <!-- SHOP NAV HIDDEN UNTIL PAYFAST VERIFIED <a href="/shop/" class="nav__mobile-link">Shop</a> -->
+    <a href="/shop/" class="nav__mobile-link">Shop</a>
     <a href="/contact/" class="nav__mobile-link">Contact</a>
     <div class="nav__mobile-cta">
       <a href="/quote/" class="btn btn--primary btn--full">Get a Free Quote</a>
@@ -92,7 +92,7 @@
 <main id="main-content">
 
   <div class="container">
-    <nav class="breadcrumb" style="padding-top:calc(var(--nav-h) + var(--sp-6));" aria-label="Breadcrumb">
+    <nav class="breadcrumb breadcrumb--light" style="padding-top:calc(var(--nav-h) + var(--sp-6));" aria-label="Breadcrumb">
       <a href="/">Home</a><span class="breadcrumb__sep">›</span>
       <a href="/shop/">Shop</a><span class="breadcrumb__sep">›</span>
       <a href="/shop/#diy-fridge-kits">DIY Fridge Kits</a><span class="breadcrumb__sep">›</span>
@@ -106,23 +106,16 @@
 
       <!-- LEFT: Product image -->
       <div>
-        <div class="product-img-main" style="aspect-ratio:1;background:var(--c-cream);border-radius:var(--radius-lg);overflow:hidden;">
+        <div class="product-img-main" style="aspect-ratio:4 / 3;background:var(--c-cream);border-radius:var(--radius-lg);overflow:hidden;">
           <img id="main-product-img"
-               src="/assets/images/1000057396.webp"
+               src="/assets/images/side-by-side.png"
                alt="Side-by-side fridge wrapped in vinyl — two vertical doors side by side"
-               width="600" height="600"
+               width="600" height="450"
                style="width:100%;height:100%;object-fit:cover;"
                onerror="this.src='/assets/images/new2.png'">
           <!-- OWNER: Replace with a photo of a wrapped side-by-side fridge -->
         </div>
-        <div style="display:flex;gap:var(--sp-3);margin-top:var(--sp-4);" aria-label="Product image thumbnails">
-          <div class="product-thumb active" role="button" tabindex="0" aria-label="View main product image">
-            <img src="/assets/images/1000057396.webp" alt="Side-by-side fridge wrap kit" loading="lazy" width="72" height="72" onerror="this.src='/assets/images/new2.png'">
-          </div>
-          <div class="product-thumb" role="button" tabindex="0" aria-label="View vinyl close-up">
-            <img src="/assets/images/IMG-20250525-WA0004.jpg" alt="Vinyl wrap texture close-up" loading="lazy" width="72" height="72" onerror="this.src='/assets/images/new2.png'">
-          </div>
-        </div>
+
       </div>
 
       <!-- RIGHT: Product info -->
@@ -151,19 +144,8 @@
           </p>
           <p class="colour-section__required" id="colour-required-msg" role="alert">Please select a colour before adding to your cart.</p>
           <div class="colour-swatches" role="group" aria-label="Choose vinyl colour">
-            <button class="colour-swatch swatch--matte-black"    data-colour="Matte Black"    onclick="selectColour(this)" aria-label="Matte Black"    aria-pressed="false" type="button"><span class="colour-swatch__tooltip">Matte Black</span></button>
-            <button class="colour-swatch swatch--gloss-black"    data-colour="Gloss Black"    onclick="selectColour(this)" aria-label="Gloss Black"    aria-pressed="false" type="button"><span class="colour-swatch__tooltip">Gloss Black</span></button>
-            <button class="colour-swatch swatch--matte-white"    data-colour="Matte White"    onclick="selectColour(this)" aria-label="Matte White"    aria-pressed="false" type="button"><span class="colour-swatch__tooltip">Matte White</span></button>
-            <button class="colour-swatch swatch--gloss-white"    data-colour="Gloss White"    onclick="selectColour(this)" aria-label="Gloss White"    aria-pressed="false" type="button"><span class="colour-swatch__tooltip">Gloss White</span></button>
-            <button class="colour-swatch swatch--brushed-silver" data-colour="Brushed Silver" onclick="selectColour(this)" aria-label="Brushed Silver" aria-pressed="false" type="button"><span class="colour-swatch__tooltip">Brushed Silver</span></button>
-            <button class="colour-swatch swatch--marble"         data-colour="Marble"         onclick="selectColour(this)" aria-label="Marble"         aria-pressed="false" type="button"><span class="colour-swatch__tooltip">Marble</span></button>
-            <button class="colour-swatch swatch--wood-oak"       data-colour="Wood Oak"       onclick="selectColour(this)" aria-label="Wood Oak"       aria-pressed="false" type="button"><span class="colour-swatch__tooltip">Wood Oak</span></button>
-            <button class="colour-swatch swatch--concrete-grey"  data-colour="Concrete Grey"  onclick="selectColour(this)" aria-label="Concrete Grey"  aria-pressed="false" type="button"><span class="colour-swatch__tooltip">Concrete Grey</span></button>
-            <button class="colour-swatch swatch--navy-blue"      data-colour="Navy Blue"      onclick="selectColour(this)" aria-label="Navy Blue"      aria-pressed="false" type="button"><span class="colour-swatch__tooltip">Navy Blue</span></button>
-            <button class="colour-swatch swatch--forest-green"   data-colour="Forest Green"   onclick="selectColour(this)" aria-label="Forest Green"   aria-pressed="false" type="button"><span class="colour-swatch__tooltip">Forest Green</span></button>
-            <button class="colour-swatch swatch--rose-gold"      data-colour="Rose Gold"      onclick="selectColour(this)" aria-label="Rose Gold"      aria-pressed="false" type="button"><span class="colour-swatch__tooltip">Rose Gold</span></button>
+            <!-- Swatches injected by kwm.js VINYL_SWATCHES -->
           </div>
-          <!-- OWNER: Update swatches to match KWM's actual available vinyl range -->
         </div>
 
         <!-- WHAT'S INCLUDED -->
@@ -234,9 +216,7 @@
           </div>
         </div>
 
-        <div style="margin-top:var(--sp-5);padding:var(--sp-4);background:var(--c-cream);border:1px solid var(--c-border);border-radius:var(--radius-sm);font-size:var(--text-xs);color:var(--c-muted);">
-          ⚠ <strong style="color:var(--c-ink);">Payment note:</strong> Secure payment (PayFast) will be integrated before launch. Currently, orders are sent to us via WhatsApp for manual processing.
-        </div>
+
       </div>
     </div>
   </div>

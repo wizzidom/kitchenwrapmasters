@@ -6,32 +6,31 @@
  * This function:
  *   1. Looks up every product's authoritative price from PRICE_LIST (server-side)
  *   2. Recalculates the total — ignoring whatever price the browser sent
- *   3. Builds and returns the PayFast form fields with the correct amount
+ *   3. Stores the expected amount (in integer cents) against the order reference
+ *      in Supabase BEFORE sending the customer to PayFast
+ *   4. Returns the PayFast form fields with the correct amount
  *
- * A customer editing prices in DevTools has zero effect — the amount
- * that reaches PayFast is always calculated here, not in the browser.
+ * Security model:
+ *   - Browser prices are completely ignored.
+ *   - The expected amount is stored server-side in pending_orders.
+ *   - payfast-notify reads that stored amount and rejects any ITN where
+ *     amount_gross doesn't match — closing the under-payment attack surface.
  *
  * Environment variables required (Netlify Dashboard → Environment Variables):
- *   PAYFAST_MERCHANT_ID  — 25068580
+ *   PAYFAST_MERCHANT_ID  — your PayFast merchant ID
  *   PAYFAST_MERCHANT_KEY — your 13-character merchant key
- *   SITE_URL             — https://classy-gecko-298aad.netlify.app
+ *   SUPABASE_URL         — https://jxhrbkhzmhnrlqcxgvxa.supabase.co
+ *   SUPABASE_SERVICE_KEY — service_role key (NOT the anon key)
+ *   SITE_URL             — https://kitchenwrapmasters.co.za
  */
 
 // ---------------------------------------------------------------------------
 // AUTHORITATIVE PRICE LIST
-// This is the single source of truth for all product prices.
-// Update prices here — never in the HTML product pages.
-//
-// Structure:
-//   [product_id]: { base: <price in Rands> }
-//
-// For products with options (e.g. video add-on), use option keys:
-//   [product_id]: { base: <price>, options: { [option_key]: <additional price> } }
-//
-// OWNER: Fill in the real prices below before going live.
+// Single source of truth for all product prices (in Rands).
+// Update prices here — never in HTML product pages.
+// OWNER: Fill in real prices before going live.
 // ---------------------------------------------------------------------------
 const PRICE_LIST = {
-  // DIY Fridge Kits
   'diy-double-door-fridge-bundle': {
     base: 0,          // TODO: set real price e.g. 899.00
     options: {
@@ -39,80 +38,92 @@ const PRICE_LIST = {
     },
   },
   'diy-side-by-side-fridge-bundle': {
-    base: 0,          // TODO: set real price
+    base: 0,
     options: {
-      'installation-video': 0,  // TODO: set real video add-on price
+      'installation-video': 0,
     },
   },
   'diy-freezer-bundle': {
-    base: 0,          // TODO: set real price
+    base: 0,
     options: {
-      'installation-video': 0,  // TODO: set real video add-on price
+      'installation-video': 0,
     },
   },
-
-  // Vinyl & Materials
   '5m-vinyl-bundle': {
-    base: 0,          // TODO: set real price
+    base: 0,
   },
   '50m-vinyl-roll': {
-    base: 0,          // TODO: set real price
+    base: 0,
   },
-
-  // Vinyl Samples
   'vinyl-sample-pack': {
     base: 0,
-    // Variants are priced individually — see variantPrices below
+    // Variants priced individually — see VARIANT_PRICES below
   },
 };
 
-// Variant-level pricing for products where different options have different base prices
-// Key format: `${product_id}::${variant_name}`
+// Variant-level pricing — key format: `${product_id}::${variant_name}`
 const VARIANT_PRICES = {
   'vinyl-sample-pack::Single Sample':  35,
   'vinyl-sample-pack::5 Colour Pack':  149,
   'vinyl-sample-pack::10 Colour Pack': 249,
 };
 
-// Accessories (sold individually, no variants)
+// Accessories (no variants)
 const ACCESSORY_PRICES = {
   'professional-application-squeegee': 89,
   'precision-vinyl-cutting-tool':      129,
 };
 
 // ---------------------------------------------------------------------------
+// Max quantity per line item
+// ---------------------------------------------------------------------------
+const MAX_QTY_PER_ITEM = 50;
+
+// ---------------------------------------------------------------------------
+// CORS — allowed origins
+// ---------------------------------------------------------------------------
+const ALLOWED_ORIGINS = [
+  'https://kitchenwrapmasters.co.za',
+  'https://www.kitchenwrapmasters.co.za',
+  'https://classy-gecko-298aad.netlify.app',
+];
+
+function getCorsHeaders(requestOrigin) {
+  const origin = ALLOWED_ORIGINS.includes(requestOrigin) ? requestOrigin : ALLOWED_ORIGINS[0];
+  return {
+    'Access-Control-Allow-Origin':  origin,
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Max-Age':       '86400',
+    'Vary':                         'Origin',
+  };
+}
+
+// ---------------------------------------------------------------------------
 // Price calculation
 // ---------------------------------------------------------------------------
 
 /**
- * Given a cart item from the browser, return the authoritative unit price.
- * Returns null if the product ID is not recognised (order will be rejected).
+ * Return the authoritative unit price (Rands) for a cart item.
+ * Returns null for unrecognised product IDs — order will be rejected.
  */
 function getAuthorisedPrice(item) {
   const id      = item.id;
   const variant = item.variant || '';
 
-  // Check accessory list first
   if (ACCESSORY_PRICES[id] !== undefined) {
     return ACCESSORY_PRICES[id];
   }
 
-  // Check variant price table
-  // variant string format: "Vinyl: 6m × 1.22m | Colour: Matte Black | Installation Video: Yes"
-  // We stored the pack size variant as plain text for sample packs
   const variantKey = `${id}::${variant}`;
   if (VARIANT_PRICES[variantKey] !== undefined) {
     return VARIANT_PRICES[variantKey];
   }
 
-  // Check main price list
   const product = PRICE_LIST[id];
   if (!product) return null;
 
   let price = product.base;
-
-  // Add option prices if applicable
-  // For DIY kits, check if variant string contains "Installation Video: Yes"
   if (product.options && variant.includes('Installation Video: Yes')) {
     price += (product.options['installation-video'] || 0);
   }
@@ -121,23 +132,94 @@ function getAuthorisedPrice(item) {
 }
 
 // ---------------------------------------------------------------------------
+// Monetary helpers
+// ---------------------------------------------------------------------------
+
+/**
+ * Convert a Rand amount to integer cents.
+ * Uses Math.round to avoid floating-point drift (e.g. 89.00 → 8900).
+ * This is the canonical representation stored in Supabase and used for
+ * all comparisons — never compare floating-point Rand values directly.
+ */
+function randsToCents(rands) {
+  return Math.round(parseFloat(rands) * 100);
+}
+
+// ---------------------------------------------------------------------------
+// Supabase helpers
+// ---------------------------------------------------------------------------
+
+/**
+ * Write a pending_orders row with the expected amount before the customer
+ * is redirected to PayFast. payfast-notify will read this to verify the
+ * actual paid amount matches what the server calculated.
+ *
+ * Uses upsert (ON CONFLICT DO UPDATE) so that re-submitting the checkout
+ * form with the same orderRef (e.g. double-click) safely overwrites the
+ * previous pending row rather than failing.
+ */
+async function storePendingOrder(orderRef, expectedAmountCents, supabaseUrl, serviceKey) {
+  const url = `${supabaseUrl}/rest/v1/pending_orders`;
+
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type':  'application/json',
+      'apikey':        serviceKey,
+      'Authorization': `Bearer ${serviceKey}`,
+      // Upsert: if the order_reference already exists, update expected_amount_cents.
+      'Prefer':        'resolution=merge-duplicates,return=minimal',
+    },
+    body: JSON.stringify({
+      order_reference:       orderRef,
+      expected_amount_cents: expectedAmountCents,
+      // expires_at defaults to now() + 2 hours in Supabase schema
+    }),
+  });
+
+  if (!response.ok) {
+    const errText = await response.text();
+    throw new Error(`Supabase pending_orders insert failed: ${response.status} — ${errText}`);
+  }
+}
+
+// ---------------------------------------------------------------------------
 // Main handler
 // ---------------------------------------------------------------------------
 exports.handler = async function (event) {
-  // Only accept POST
-  if (event.httpMethod !== 'POST') {
-    return { statusCode: 405, body: JSON.stringify({ error: 'Method not allowed' }) };
+  const requestOrigin = event.headers['origin'] || event.headers['Origin'] || '';
+  const corsHeaders   = getCorsHeaders(requestOrigin);
+
+  // Handle CORS preflight
+  if (event.httpMethod === 'OPTIONS') {
+    return { statusCode: 204, headers: corsHeaders, body: '' };
   }
 
-  // CORS headers — only allow requests from our own site
+  // Only accept POST
+  if (event.httpMethod !== 'POST') {
+    return { statusCode: 405, headers: corsHeaders, body: JSON.stringify({ error: 'Method not allowed' }) };
+  }
+
   const SITE_URL      = process.env.SITE_URL || '';
   const MERCHANT_ID   = process.env.PAYFAST_MERCHANT_ID;
   const MERCHANT_KEY  = process.env.PAYFAST_MERCHANT_KEY;
+  const SUPABASE_URL  = process.env.SUPABASE_URL;
+  const SERVICE_KEY   = process.env.SUPABASE_SERVICE_KEY;
 
   if (!MERCHANT_ID || !MERCHANT_KEY) {
     console.error('KWM CREATE-PAYMENT: Missing PayFast env vars');
     return {
       statusCode: 500,
+      headers: corsHeaders,
+      body: JSON.stringify({ error: 'Server configuration error' }),
+    };
+  }
+
+  if (!SUPABASE_URL || !SERVICE_KEY) {
+    console.error('KWM CREATE-PAYMENT: Missing Supabase env vars');
+    return {
+      statusCode: 500,
+      headers: corsHeaders,
       body: JSON.stringify({ error: 'Server configuration error' }),
     };
   }
@@ -147,31 +229,37 @@ exports.handler = async function (event) {
   try {
     body = JSON.parse(event.body || '{}');
   } catch {
-    return { statusCode: 400, body: JSON.stringify({ error: 'Invalid JSON' }) };
+    return { statusCode: 400, headers: corsHeaders, body: JSON.stringify({ error: 'Invalid JSON' }) };
   }
 
   const {
-    items = [],
+    items    = [],
     customer = {},
     delivery = {},
-    notes = '',
+    notes    = '',
     orderRef,
   } = body;
 
   // Validate cart is not empty
   if (!items.length) {
-    return { statusCode: 400, body: JSON.stringify({ error: 'Cart is empty' }) };
+    return { statusCode: 400, headers: corsHeaders, body: JSON.stringify({ error: 'Cart is empty' }) };
   }
 
   // Validate customer fields
   if (!customer.firstName || !customer.lastName || !customer.email) {
-    return { statusCode: 400, body: JSON.stringify({ error: 'Missing customer details' }) };
+    return { statusCode: 400, headers: corsHeaders, body: JSON.stringify({ error: 'Missing customer details' }) };
+  }
+
+  // Validate orderRef is present and matches expected format
+  const ORDER_REF_PATTERN = /^KWM-\d{10,}-[A-Z0-9a-z]{4}$/;
+  if (!orderRef || !ORDER_REF_PATTERN.test(orderRef)) {
+    return { statusCode: 400, headers: corsHeaders, body: JSON.stringify({ error: 'Invalid order reference' }) };
   }
 
   // ---------------------------------------------------------------------------
   // Recalculate total server-side — ignore browser-supplied prices entirely
   // ---------------------------------------------------------------------------
-  let serverTotal  = 0;
+  let serverTotalRands = 0;
   const validatedItems = [];
 
   for (const item of items) {
@@ -181,37 +269,58 @@ exports.handler = async function (event) {
       console.warn(`KWM CREATE-PAYMENT: Unknown product id: ${item.id}`);
       return {
         statusCode: 400,
+        headers: corsHeaders,
         body: JSON.stringify({ error: `Unknown product: ${item.id}` }),
       };
     }
 
     if (unitPrice === 0) {
-      // Price not yet configured — block checkout
       return {
         statusCode: 400,
+        headers: corsHeaders,
         body: JSON.stringify({
           error: `Price not configured for: ${item.name || item.id}. Please contact us to order.`,
         }),
       };
     }
 
-    const qty = Math.max(1, parseInt(item.qty) || 1);
-    serverTotal += unitPrice * qty;
+    const qty = Math.min(MAX_QTY_PER_ITEM, Math.max(1, parseInt(item.qty) || 1));
+    serverTotalRands += unitPrice * qty;
     validatedItems.push({ ...item, price: unitPrice, qty });
   }
 
-  // Round to 2 decimal places (avoid floating point issues)
-  serverTotal = Math.round(serverTotal * 100) / 100;
+  // Round to 2 decimal places to avoid floating-point accumulation
+  serverTotalRands = Math.round(serverTotalRands * 100) / 100;
 
   // PayFast minimum is R5.00
-  if (serverTotal < 5) {
+  if (serverTotalRands < 5) {
     return {
       statusCode: 400,
+      headers: corsHeaders,
       body: JSON.stringify({ error: 'Order total is below the minimum payment amount of R5.00' }),
     };
   }
 
-  const amountStr = serverTotal.toFixed(2);
+  // Convert to integer cents — this is what we store and compare against
+  const expectedAmountCents = randsToCents(serverTotalRands);
+  const amountStr           = serverTotalRands.toFixed(2);
+
+  // ---------------------------------------------------------------------------
+  // Store expected amount in Supabase BEFORE sending to PayFast.
+  // If this write fails, we abort — we must never send a customer to PayFast
+  // without having recorded what we expect them to pay.
+  // ---------------------------------------------------------------------------
+  try {
+    await storePendingOrder(orderRef, expectedAmountCents, SUPABASE_URL, SERVICE_KEY);
+    console.log(`KWM CREATE-PAYMENT: Pending order stored — ${orderRef}, ${expectedAmountCents} cents (R${amountStr})`);
+  } catch (err) {
+    console.error('KWM CREATE-PAYMENT: Failed to store pending order:', err.message);
+    return {
+      statusCode: 500,
+      headers: corsHeaders,
+      body: JSON.stringify({ error: 'Could not initialise order. Please try again.' }),
+    };
+  }
 
   // Build item name summary for PayFast (max 255 chars)
   const itemSummary = validatedItems
@@ -219,7 +328,7 @@ exports.handler = async function (event) {
     .join(', ')
     .slice(0, 254);
 
-  // Pack order metadata into custom_str fields for the notify function
+  // Pack order metadata into PayFast custom_str fields
   const custom_str3 = [
     delivery.address  || '',
     delivery.city     || '',
@@ -230,7 +339,6 @@ exports.handler = async function (event) {
   const custom_str4 = encodeURIComponent(JSON.stringify(validatedItems));
   const custom_str5 = [customer.phone || '', notes || ''].join('|');
 
-  // Build PayFast fields
   const payfastFields = {
     merchant_id:   MERCHANT_ID,
     merchant_key:  MERCHANT_KEY,
@@ -240,7 +348,7 @@ exports.handler = async function (event) {
     name_first:    customer.firstName,
     name_last:     customer.lastName,
     email_address: customer.email,
-    amount:        amountStr,  // ← server-calculated, tamper-proof
+    amount:        amountStr,  // server-calculated, tamper-proof
     item_name:     itemSummary,
     custom_str1:   orderRef,
     custom_str2:   delivery.method || 'courier',
@@ -254,6 +362,7 @@ exports.handler = async function (event) {
   return {
     statusCode: 200,
     headers: {
+      ...corsHeaders,
       'Content-Type': 'application/json',
       'Cache-Control': 'no-store',
     },

@@ -35,7 +35,8 @@
   <style>
     .product-hero { display:grid; grid-template-columns:1fr 1fr; gap:var(--sp-12); align-items:start; padding-block:var(--sp-16); }
     @media(max-width:768px){ .product-hero { grid-template-columns:1fr; } }
-    .product-img-main { aspect-ratio:1; background:var(--c-cream); border-radius:var(--radius-lg); overflow:hidden; }
+    .product-hero > * { min-width:0; }
+    .product-img-main { aspect-ratio:4 / 3; background:var(--c-cream); border-radius:var(--radius-lg); overflow:hidden; }
     .product-img-main img { width:100%; height:100%; object-fit:cover; }
     .product-thumbs { display:flex; gap:var(--sp-3); margin-top:var(--sp-4); }
     .product-thumb { width:72px; height:72px; border-radius:var(--radius-sm); overflow:hidden; cursor:pointer; border:2px solid transparent; transition:border-color var(--duration) var(--ease); }
@@ -44,7 +45,7 @@
     .variant-btn { padding:var(--sp-3) var(--sp-5); border:1.5px solid var(--c-border); border-radius:var(--radius-sm); background:var(--c-white); cursor:pointer; font-size:var(--text-sm); font-weight:500; transition:all var(--duration) var(--ease); }
     .variant-btn:hover { border-color:var(--c-brown); color:var(--c-brown); }
     .variant-btn.selected { background:var(--c-brown); border-color:var(--c-brown); color:white; }
-    .qty-control { display:flex; align-items:center; gap:var(--sp-3); }
+    .qty-control { display:inline-flex; align-items:center; }
   </style>
 </head>
 <body>
@@ -53,13 +54,13 @@
 <header class="site-header page-header" id="site-header">
   <nav class="nav" aria-label="Main navigation">
     <a href="/" class="nav__logo" aria-label="Kitchen Wrap Masters — Home"><img src="/assets/images/new2.png" alt="Kitchen Wrap Masters logo" class="nav__logo-img" width="44" height="44"></a>
-    <ul class="nav__links" role="list"><li><a href="/" class="nav__link">Home</a></li><li><a href="/services/" class="nav__link">Services</a></li><li><a href="/gallery/" class="nav__link">Our Work</a></li><li><a href="/about/" class="nav__link">About</a></li><li><a href="/blog/" class="nav__link">Blog</a></li><!-- SHOP NAV HIDDEN UNTIL PAYFAST VERIFIED <li><a href="/shop/" class="nav__link">Shop</a></li> --></ul>
+    <ul class="nav__links" role="list"><li><a href="/" class="nav__link">Home</a></li><li><a href="/services/" class="nav__link">Services</a></li><li><a href="/gallery/" class="nav__link">Our Work</a></li><li><a href="/about/" class="nav__link">About</a></li><li><a href="/blog/" class="nav__link">Blog</a></li><li><a href="/shop/" class="nav__link">Shop</a></li></ul>
     <a href="/cart/" class="nav__link" style="margin-left:auto;display:flex;align-items:center;" aria-label="Cart"><span class="cart-icon-wrap"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg><span class="cart-count" style="display:none">0</span></span></a>
     <div class="nav__cta"><a href="/quote/" class="btn btn--primary btn--sm">Get a Quote</a></div>
     <button class="nav__hamburger" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-menu"><span></span><span></span><span></span></button>
   </nav>
   <div class="nav__mobile-menu" id="mobile-menu" role="dialog" aria-label="Mobile navigation">
-    <a href="/" class="nav__mobile-link">Home</a><a href="/services/" class="nav__mobile-link">Services</a><a href="/gallery/" class="nav__mobile-link">Our Work</a><a href="/about/" class="nav__mobile-link">About</a><a href="/blog/" class="nav__mobile-link">Blog</a><!-- SHOP NAV HIDDEN UNTIL PAYFAST VERIFIED <a href="/shop/" class="nav__mobile-link">Shop</a> --><a href="/contact/" class="nav__mobile-link">Contact</a>
+    <a href="/" class="nav__mobile-link">Home</a><a href="/services/" class="nav__mobile-link">Services</a><a href="/gallery/" class="nav__mobile-link">Our Work</a><a href="/about/" class="nav__mobile-link">About</a><a href="/blog/" class="nav__mobile-link">Blog</a><a href="/shop/" class="nav__mobile-link">Shop</a><a href="/contact/" class="nav__mobile-link">Contact</a>
     <div class="nav__mobile-cta"><a href="/quote/" class="btn btn--primary btn--full">Get a Free Quote</a><a href="https://wa.me/27688169590" class="btn btn--whatsapp btn--full" target="_blank" rel="noopener">WhatsApp Us</a></div>
   </div>
 </header>
@@ -79,7 +80,7 @@
 <main id="main-content">
 
 <div class="container">
-  <nav class="breadcrumb" style="padding-top:calc(var(--nav-h) + var(--sp-6));" aria-label="Breadcrumb"><a href="/">Home</a><span class="breadcrumb__sep">›</span><a href="/shop/">Shop</a><span class="breadcrumb__sep">›</span><span aria-current="page">Vinyl Sample Pack</span></nav>
+  <nav class="breadcrumb breadcrumb--light" style="padding-top:calc(var(--nav-h) + var(--sp-6));" aria-label="Breadcrumb"><a href="/">Home</a><span class="breadcrumb__sep">›</span><a href="/shop/">Shop</a><span class="breadcrumb__sep">›</span><span aria-current="page">Vinyl Sample Pack</span></nav>
 </div>
 
 <!-- PRODUCT HERO -->
@@ -89,20 +90,10 @@
     <!-- Images -->
     <div>
       <div class="product-img-main">
-        <img id="main-product-img" src="/assets/images/new2.png" alt="Vinyl colour sample pack — Kitchen Wrap Masters" width="600" height="600">
+        <img id="main-product-img" src="/assets/images/squ.jpg" alt="Vinyl colour sample pack — Kitchen Wrap Masters" width="600" height="600">
         <!-- OWNER: Replace with real product photography -->
       </div>
-      <div class="product-thumbs" aria-label="Product image thumbnails">
-        <div class="product-thumb active" onclick="document.getElementById('main-product-img').src=this.querySelector('img').src" tabindex="0" role="button" aria-label="View image 1">
-          <img src="/assets/images/new2.png" alt="Product thumbnail 1" loading="lazy" width="72" height="72">
-        </div>
-        <div class="product-thumb" onclick="document.getElementById('main-product-img').src=this.querySelector('img').src" tabindex="0" role="button" aria-label="View image 2">
-          <img src="/gallery/before-after/kitchen after transfomation 1.jpeg" alt="Kitchen example using vinyl wrap" loading="lazy" width="72" height="72">
-        </div>
-        <div class="product-thumb" onclick="document.getElementById('main-product-img').src=this.querySelector('img').src" tabindex="0" role="button" aria-label="View image 3">
-          <img src="/gallery/before-after/kitchen after transfomation 4.jpeg" alt="Another kitchen example" loading="lazy" width="72" height="72">
-        </div>
-      </div>
+
     </div>
 
     <!-- Product info -->
@@ -158,10 +149,7 @@
         </div>
       </div>
 
-      <!-- Payment notice -->
-      <div style="margin-top:var(--sp-5);padding:var(--sp-4);background:var(--c-cream);border:1px solid var(--c-border);border-radius:var(--radius-sm);font-size:var(--text-xs);color:var(--c-muted);">
-        ⚠ <strong style="color:var(--c-ink);">Payment note:</strong> Secure payment processing (PayFast) will be integrated before launch. Currently, cart orders are sent to us via email/WhatsApp for manual processing.
-      </div>
+
     </div>
   </div>
 </div>
@@ -250,7 +238,7 @@ function addProductToCart() {
       variant: selectedVariant,
       price: selectedPrice,
       qty: qty,
-      image: '/assets/images/new2.png'
+      image: '/assets/images/squ.jpg'
     });
     // Track product view → add_to_cart in kwm.js handles GA event
   }

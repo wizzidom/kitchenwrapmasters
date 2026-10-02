@@ -120,7 +120,10 @@
 // Pull order reference from URL: /order-confirmed/?ref=KWM-xxx
 (function () {
   const params = new URLSearchParams(window.location.search);
-  const ref    = params.get('ref');
+  const rawRef = params.get('ref');
+  // Validate format: KWM-{digits}-{alphanumeric} — reject anything that doesn't match
+  const REF_PATTERN = /^KWM-\d{10,}-[A-Z0-9]{4}$/;
+  const ref = rawRef && REF_PATTERN.test(rawRef) ? rawRef : null;
 
   if (ref) {
     const block   = document.getElementById('order-ref-block');
