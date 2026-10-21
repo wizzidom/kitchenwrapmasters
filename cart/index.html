@@ -154,7 +154,7 @@ document.getElementById('footer-year').textContent = new Date().getFullYear();
           <h3 style="font-size:var(--text-xl);margin-bottom:var(--sp-5);">Order Summary</h3>
           <div style="display:flex;flex-direction:column;gap:var(--sp-3);margin-bottom:var(--sp-5);">
             <div style="display:flex;justify-content:space-between;font-size:var(--text-sm);"><span>Subtotal</span><span>R${subtotal.toFixed(2)}</span></div>
-            <div style="display:flex;justify-content:space-between;font-size:var(--text-sm);color:var(--c-muted);"><span>Delivery</span><span>Calculated at checkout</span></div>
+            <div style="display:flex;justify-content:space-between;font-size:var(--text-sm);color:var(--c-muted);"><span>Delivery</span><span style="color:var(--c-brown);font-weight:700;">FREE</span></div>
             <div style="display:flex;justify-content:space-between;font-weight:700;font-size:var(--text-base);border-top:1px solid var(--c-border);padding-top:var(--sp-3);"><span>Total</span><span>R${subtotal.toFixed(2)}</span></div>
           </div>
           <a href="/checkout/" class="btn btn--primary btn--full btn--lg">Proceed to Checkout</a>

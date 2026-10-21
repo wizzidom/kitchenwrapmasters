@@ -110,7 +110,7 @@
               <input type="radio" name="delivery" value="courier" id="del-courier" checked onchange="selectDelivery(this)">
               <div>
                 <strong style="display:block;font-size:var(--text-sm);">Courier Delivery</strong>
-                <span style="font-size:var(--text-xs);color:var(--c-muted);">Gauteng: 1–2 business days · Other provinces: 3–5 days. Delivery cost confirmed after order.</span>
+                <span style="font-size:var(--text-xs);color:var(--c-muted);">Gauteng: 1–2 business days · Other provinces: 3–5 days. <strong style="color:var(--c-brown);">Free delivery.</strong></span>
               </div>
             </label>
             <label class="delivery-option" id="del-collect-label">
@@ -292,7 +292,7 @@ function renderCheckoutSummary() {
     </div>
     <div class="order-line">
       <span style="color:var(--c-muted);">Delivery</span>
-      <span style="color:var(--c-muted);">TBC</span>
+      <span style="color:var(--c-brown);font-weight:700;">FREE</span>
     </div>
     <div class="order-line grand">
       <span>Order Total</span>
@@ -391,9 +391,9 @@ function submitToWhatsApp() {
   let deliveryLine;
   if (delivery === 'courier') {
     const addrParts = [address, city, province, postal].filter(Boolean).join(', ');
-    deliveryLine = `Delivery: Courier — ${addrParts}`;
+    deliveryLine = `Delivery: FREE courier — ${addrParts}`;
   } else {
-    deliveryLine = 'Delivery: Collect from Johannesburg South';
+    deliveryLine = 'Delivery: FREE collection — Johannesburg South';
   }
 
   // Assemble the WhatsApp message
