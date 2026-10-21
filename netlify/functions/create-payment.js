@@ -32,28 +32,19 @@
 // ---------------------------------------------------------------------------
 const PRICE_LIST = {
   'diy-double-door-fridge-bundle': {
-    base: 0,          // TODO: set real price e.g. 899.00
-    options: {
-      'installation-video': 0,  // TODO: set real video add-on price e.g. 299.00
-    },
+    base: 1750,
   },
   'diy-side-by-side-fridge-bundle': {
-    base: 0,
-    options: {
-      'installation-video': 0,
-    },
+    base: 2150,
   },
   'diy-freezer-bundle': {
-    base: 0,
-    options: {
-      'installation-video': 0,
-    },
+    base: 1600,
   },
   '5m-vinyl-bundle': {
-    base: 0,
+    base: 1650,
   },
   '50m-vinyl-roll': {
-    base: 0,
+    base: 7600,
   },
   'vinyl-sample-pack': {
     base: 0,
@@ -70,8 +61,8 @@ const VARIANT_PRICES = {
 
 // Accessories (no variants)
 const ACCESSORY_PRICES = {
-  'professional-application-squeegee': 89,
-  'precision-vinyl-cutting-tool':      129,
+  'professional-application-squeegee': 200,
+  'precision-vinyl-cutting-tool':      200,
 };
 
 // ---------------------------------------------------------------------------
@@ -123,12 +114,7 @@ function getAuthorisedPrice(item) {
   const product = PRICE_LIST[id];
   if (!product) return null;
 
-  let price = product.base;
-  if (product.options && variant.includes('Installation Video: Yes')) {
-    price += (product.options['installation-video'] || 0);
-  }
-
-  return price;
+  return product.base;
 }
 
 // ---------------------------------------------------------------------------

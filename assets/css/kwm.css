@@ -678,13 +678,24 @@ p  { line-height: 1.75; color: var(--c-muted); }
   transform: translateY(-4px);
 }
 .service-card__img {
-  aspect-ratio: 4/3;
+  aspect-ratio: 16/9;
   overflow: hidden;
 }
 .service-card__img img {
   width: 100%; height: 100%;
   object-fit: cover;
+  object-position: center;
+  display: block;
   transition: transform var(--duration-lg) var(--ease);
+}
+@media (max-width: 768px) {
+  .service-card__img {
+    aspect-ratio: unset;
+  }
+  .service-card__img img {
+    height: auto;
+    object-fit: unset;
+  }
 }
 .service-card:hover .service-card__img img {
   transform: scale(1.04);
@@ -1586,10 +1597,16 @@ p  { line-height: 1.75; color: var(--c-muted); }
   .grid-4 { grid-template-columns: repeat(2,1fr); }
   .footer-grid { grid-template-columns: 1fr 1fr; gap: var(--sp-10); }
   .trust-item { padding-inline: var(--sp-5); }
+  /* Tighten nav spacing at medium widths to prevent 7-item nav overflow */
+  .nav { gap: var(--sp-4); }
+  .nav__links { gap: 0; }
+  .nav__link { padding: var(--sp-2) var(--sp-2); font-size: var(--text-xs); }
 }
 
 @media (max-width: 768px) {
   .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+  /* Keep the "why" benefits grid 2-column on mobile — 8 tiles in 1 column is too long */
+  .grid-4--why { grid-template-columns: 1fr 1fr; }
   .form-grid-2 { grid-template-columns: 1fr; }
   .nav__links, .nav__cta { display: none; }
   .nav__hamburger { display: flex; }
@@ -1607,8 +1624,16 @@ p  { line-height: 1.75; color: var(--c-muted); }
 @media (max-width: 480px) {
   :root { --nav-h: 64px; }
   .footer-grid { grid-template-columns: 1fr; }
-  .trust-item { flex: 1 1 100%; border-left: none !important; border-bottom: 1px solid rgba(255,255,255,.1) !important; }
+  /* Remove max-width constraints on hero text for small screens */
+  .hero__subtitle, .hero__title { max-width: 100%; }
+  /* Trust bar: 2-per-row at small mobile for better visual balance with 5 items */
+  .trust-item { flex: 1 1 50%; border-left: none !important; border-bottom: 1px solid rgba(255,255,255,.1) !important; }
   .trust-item:last-child { border-bottom: none !important; }
+  /* Reduce page-hero vertical padding on small screens */
+  .page-hero {
+    padding-top: calc(var(--nav-h) + var(--sp-8));
+    padding-bottom: var(--sp-10);
+  }
   .hero__title { font-size: 2.2rem; }
   .lightbox__nav { width: 38px; height: 38px; font-size: 18px; }
   .lightbox__prev { left: var(--sp-3); }

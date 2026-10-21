@@ -11,6 +11,12 @@
 # Redirects
 # ---------------------------------------------------------------------------
 
+# Old area page redirect — wrong phone number and personal email were exposed on the old file
+[[redirects]]
+  from   = "/areas/johannesburg-vinyl-wrapping.html"
+  to     = "/areas/johannesburg-vinyl-wrapping/"
+  status = 301
+
 # Trailing-slash canonicalisation (prevents duplicate content)
 [[redirects]]
   from   = "/shop"
