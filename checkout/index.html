@@ -389,12 +389,13 @@ function submitToWhatsApp() {
 
   // Delivery line
   let deliveryLine;
-  if (delivery === 'courier') {
+
     const addrParts = [address, city, province, postal].filter(Boolean).join(', ');
     deliveryLine = `Delivery: FREE courier — ${addrParts}`;
-  } else {
-    deliveryLine = 'Delivery: FREE collection — Johannesburg South';
-  }
+  
+  // else {
+  //   deliveryLine = 'Delivery: FREE collection — Johannesburg South';
+  // }
 
   // Assemble the WhatsApp message
   let msg = `Hi Kitchen Wrap Masters, I'd like to place an order:\n\n` +
